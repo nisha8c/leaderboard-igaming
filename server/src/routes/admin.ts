@@ -11,22 +11,21 @@ router.get("/", (req, res) => {
 
 // Add player
 router.post("/add-player", verifyJwt, async (req, res) => {
-  console.log("⚡ RAW req.body:", req.body);
   if (!req.user["cognito:groups"]?.includes("admin")) {
     return res.status(403).json({ message: "Admins only" });
   }
 
-  // FIX for Lambda raw string body
+  // ✅ Fix for API Gateway Lambda: parse if string
   if (typeof req.body === 'string') {
     try {
       req.body = JSON.parse(req.body);
     } catch (err) {
-      console.error("Failed to parse body:", err);
+      console.error("Failed to parse req.body:", err);
       return res.status(400).json({ message: "Invalid JSON body" });
     }
   }
 
-  console.log('Parsed add-player body:', req.body);
+  console.log("Parsed body:", req.body);
 
   const { name, score } = req.body;
 
@@ -39,6 +38,7 @@ router.post("/add-player", verifyJwt, async (req, res) => {
 
   res.json({ message: "Player added!", player });
 });
+
 
 // Update score
 router.put("/update-score/:id", verifyJwt, async (req, res) => {
