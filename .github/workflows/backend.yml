@@ -15,6 +15,9 @@ jobs:
       run:
         working-directory: ./server
 
+    env:
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
