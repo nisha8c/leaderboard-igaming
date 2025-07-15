@@ -19,6 +19,7 @@ jobs:
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
       USER_POOL_ID: ${{ secrets.USER_POOL_ID }}
       USER_POOL_DOMAIN: ${{ secrets.USER_POOL_DOMAIN }}
+      VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
     steps:
       - name: Checkout repo
