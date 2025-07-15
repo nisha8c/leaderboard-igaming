@@ -14,7 +14,18 @@ router.post("/add-player", verifyJwt, async (req, res) => {
   if (!req.user["cognito:groups"]?.includes("admin")) {
     return res.status(403).json({ message: "Admins only" });
   }
-  console.log('Incoming add-player body:', req.body);
+
+  // FIX for Lambda raw string body
+  if (typeof req.body === 'string') {
+    try {
+      req.body = JSON.parse(req.body);
+    } catch (err) {
+      console.error("Failed to parse body:", err);
+      return res.status(400).json({ message: "Invalid JSON body" });
+    }
+  }
+
+  console.log('Parsed add-player body:', req.body);
 
   const { name, score } = req.body;
 
