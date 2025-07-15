@@ -15,6 +15,11 @@ jobs:
       run:
         working-directory: ./client
 
+    env:
+      VITE_COGNITO_AUTHORITY: ${{ secrets.VITE_COGNITO_AUTHORITY }}
+      VITE_COGNITO_CLIENT_ID: ${{ secrets.VITE_COGNITO_CLIENT_ID }}
+      VITE_COGNITO_REDIRECT_URI: ${{ secrets.VITE_COGNITO_REDIRECT_URI }}
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
