@@ -1,10 +1,13 @@
 import './App.css'
 import { useAuth } from 'react-oidc-context';
-import { Leaderboard } from './components';
+import { AdminDashboard, Leaderboard } from './components';
 
 function App() {
 
   const auth = useAuth();
+  const groups: string[] = Array.isArray(auth.user?.profile["cognito:groups"])
+    ? auth.user?.profile["cognito:groups"]
+    : [];
 
   const signOutRedirect = async () => {
     await auth.removeUser();
@@ -24,6 +27,7 @@ function App() {
         <h1>Welcome, {auth.user?.profile.email}</h1>
         <button onClick={signOutRedirect}>Sign out</button>
         <Leaderboard />
+        {groups.includes('admin') && <AdminDashboard />}
       </div>
     );
   }
