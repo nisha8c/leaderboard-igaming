@@ -1,41 +1,56 @@
-// server/src/routes/admin.ts
-
 import express from "express";
 import { verifyJwt } from "../middleware/verifyJwt";
+import Player from "../models/Player";
 
 const router = express.Router();
 
+// Get test route
 router.get("/", (req, res) => {
   res.send("Admin API is up!");
 });
 
-// Example: Add a new player
-router.post("/add-player", verifyJwt, (req, res) => {
+// Add player
+router.post("/add-player", verifyJwt, async (req, res) => {
   if (!req.user["cognito:groups"]?.includes("admin")) {
     return res.status(403).json({ message: "Admins only" });
   }
 
-  // TODO: Add your logic here to add a player
-  res.json({ message: "Player added!" });
+  const { name, score } = req.body;
+
+  if (!name || !score) {
+    return res.status(400).json({ message: "Name and score are required" });
+  }
+
+  const player = new Player({ name, score });
+  await player.save();
+
+  res.json({ message: "Player added!", player });
 });
 
-// Example: Update a player's score
-router.put("/update-score/:id", verifyJwt, (req, res) => {
+// Update score
+router.put("/update-score/:id", verifyJwt, async (req, res) => {
   if (!req.user["cognito:groups"]?.includes("admin")) {
     return res.status(403).json({ message: "Admins only" });
   }
 
-  // TODO: Add your update logic
-  res.json({ message: "Score updated!" });
+  const { score } = req.body;
+  const updated = await Player.findByIdAndUpdate(
+    req.params.id,
+    { score, lastUpdated: new Date() },
+    { new: true }
+  );
+
+  res.json({ message: "Score updated!", updated });
 });
 
-// Example: Delete a player
-router.delete("/delete-player/:id", verifyJwt, (req, res) => {
+// Delete player
+router.delete("/delete-player/:id", verifyJwt, async (req, res) => {
   if (!req.user["cognito:groups"]?.includes("admin")) {
     return res.status(403).json({ message: "Admins only" });
   }
 
-  // TODO: Delete logic
+  await Player.findByIdAndDelete(req.params.id);
+
   res.json({ message: "Player deleted!" });
 });
 

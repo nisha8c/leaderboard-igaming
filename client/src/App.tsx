@@ -1,5 +1,6 @@
 import './App.css'
 import { useAuth } from 'react-oidc-context';
+import { Leaderboard } from './components';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
       <div>
         <h1>Welcome, {auth.user?.profile.email}</h1>
         <button onClick={signOutRedirect}>Sign out</button>
+        <Leaderboard />
       </div>
     );
   }

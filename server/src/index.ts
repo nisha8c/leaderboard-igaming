@@ -1,6 +1,15 @@
 import express from "express";
 import cors from "cors";
 import adminRoutes from "./routes/admin";
+import Player from './models/Player';
+import * as mongoose from 'mongoose';
+import dotenv from "dotenv";
+
+dotenv.config();
+
+mongoose.connect(process.env.MONGODB_URI!)
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch(err => console.error("❌ MongoDB connection error:", err));
 
 const app = express();
 
@@ -13,12 +22,9 @@ app.get("/", (req, res) => {
 });
 
 // ✅ Public routes (like GET leaderboard)
-app.get("/api/leaderboard", (req, res) => {
-    // TODO: Return top 10 players
-    res.json([]);// ✅ Root route
-    app.get("/", (req, res) => {
-        res.send("Server is running! 🎉");
-    });
+app.get("/api/leaderboard", async (req, res) => {
+    const topPlayers = await Player.find().sort({ score: -1 }).limit(10);
+    res.json(topPlayers);
 });
 
 // ✅ Protected admin routes
