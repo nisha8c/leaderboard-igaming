@@ -11,6 +11,7 @@ router.get("/", (req, res) => {
 
 // Add player
 router.post("/add-player", verifyJwt, async (req, res) => {
+  console.log("⚡ RAW req.body:", req.body);
   if (!req.user["cognito:groups"]?.includes("admin")) {
     return res.status(403).json({ message: "Admins only" });
   }

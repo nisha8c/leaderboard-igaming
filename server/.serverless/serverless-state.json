@@ -11,7 +11,8 @@
       "environment": {
         "MONGODB_URI": "mongodb+srv://nishac50:WmgMmE9mYgw4ol4P@clusterleaderboard.enfgtit.mongodb.net/leaderboard?retryWrites=true&w=majority",
         "USER_POOL_ID": "eu-north-1_H2BNDOr7R",
-        "USER_POOL_DOMAIN": "https://eu-north-1h2bndor7r.auth.eu-north-1.amazoncognito.com"
+        "USER_POOL_DOMAIN": "https://eu-north-1h2bndor7r.auth.eu-north-1.amazoncognito.com",
+        "VITE_API_URL": "http://localhost:3000/dev"
       },
       "stage": "dev",
       "versionFunctions": true,
@@ -108,7 +109,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-eu-north-1-104469aa-ff48",
-                "S3Key": "serverless/leaderboard-backend/dev/1752606990466-2025-07-15T19:16:30.466Z/leaderboard-backend.zip"
+                "S3Key": "serverless/leaderboard-backend/dev/1752609782659-2025-07-15T20:03:02.659Z/leaderboard-backend.zip"
               },
               "Handler": "src/index.handler",
               "Runtime": "nodejs20.x",
@@ -120,6 +121,7 @@
                   "MONGODB_URI": "mongodb+srv://nishac50:WmgMmE9mYgw4ol4P@clusterleaderboard.enfgtit.mongodb.net/leaderboard?retryWrites=true&w=majority",
                   "USER_POOL_ID": "eu-north-1_H2BNDOr7R",
                   "USER_POOL_DOMAIN": "https://eu-north-1h2bndor7r.auth.eu-north-1.amazoncognito.com",
+                  "VITE_API_URL": "http://localhost:3000/dev",
                   "NODE_OPTIONS": "--enable-source-maps"
                 }
               },
@@ -134,14 +136,14 @@
               "ApiLogGroup"
             ]
           },
-          "ApiLambdaVersionF2iAxsghdXtG2LFy5JLWTXfJHOzghr5pOcOm5j3RzI": {
+          "ApiLambdaVersionXUh5D3ilIwnfyawzzzxz5vt3023aVlo46V6nkdwcJI": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ApiLambdaFunction"
               },
-              "CodeSha256": "mzeKdLJabVLTpdAyZKN9deALo4fT+B9qw4yCWarnuXQ="
+              "CodeSha256": "QFWTCEQ4ovucw1NHmRp9xzwwjh4EWwgqYjizZljykj0="
             }
           },
           "ApiGatewayRestApi": {
@@ -266,7 +268,7 @@
               "ApiLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1752606968064": {
+          "ApiGatewayDeployment1752609758521": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -327,7 +329,7 @@
           "ApiLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ApiLambdaVersionF2iAxsghdXtG2LFy5JLWTXfJHOzghr5pOcOm5j3RzI"
+              "Ref": "ApiLambdaVersionXUh5D3ilIwnfyawzzzxz5vt3023aVlo46V6nkdwcJI"
             },
             "Export": {
               "Name": "sls-leaderboard-backend-dev-ApiLambdaFunctionQualifiedArn"
@@ -396,7 +398,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "ApiLambdaVersionF2iAxsghdXtG2LFy5JLWTXfJHOzghr5pOcOm5j3RzI"
+        "versionLogicalId": "ApiLambdaVersionXUh5D3ilIwnfyawzzzxz5vt3023aVlo46V6nkdwcJI"
       }
     },
     "configValidationMode": "warn",
@@ -418,7 +420,7 @@
     "layers": {}
   },
   "package": {
-    "artifactDirectoryName": "serverless/leaderboard-backend/dev/1752606990466-2025-07-15T19:16:30.466Z",
+    "artifactDirectoryName": "serverless/leaderboard-backend/dev/1752609782659-2025-07-15T20:03:02.659Z",
     "artifact": "leaderboard-backend.zip"
   }
 }
