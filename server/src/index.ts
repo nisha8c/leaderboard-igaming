@@ -1,16 +1,29 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import express from "express";
+import cors from "cors";
+import adminRoutes from "./routes/admin";
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/leaderboard', (_, res) => {
-    res.json({ message: 'Hello from Express + TypeScript!' });
+// ✅ Root route
+app.get("/", (req, res) => {
+    res.send("Server is running! 🎉");
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// ✅ Public routes (like GET leaderboard)
+app.get("/api/leaderboard", (req, res) => {
+    // TODO: Return top 10 players
+    res.json([]);// ✅ Root route
+    app.get("/", (req, res) => {
+        res.send("Server is running! 🎉");
+    });
+});
+
+// ✅ Protected admin routes
+app.use("/api/admin", adminRoutes);
+
+app.listen(3001, () => {
+    console.log("Server running on http://localhost:3001");
+});
