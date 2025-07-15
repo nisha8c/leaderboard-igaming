@@ -5,7 +5,8 @@ function App() {
 
   const auth = useAuth();
 
-  const signOutRedirect = () => {
+  const signOutRedirect = async () => {
+    await auth.removeUser();
     const clientId = import.meta.env.VITE_COGNITO_CLIENT_ID;
     const logoutUri = import.meta.env.VITE_COGNITO_REDIRECT_URI;
     const cognitoDomain = import.meta.env.VITE_COGNITO_DOMAIN;
