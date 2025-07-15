@@ -4,6 +4,7 @@ import adminRoutes from "./routes/admin";
 import Player from './models/Player';
 import * as mongoose from 'mongoose';
 import dotenv from "dotenv";
+import serverless from "serverless-http";
 
 dotenv.config();
 
@@ -12,7 +13,6 @@ mongoose.connect(process.env.MONGODB_URI!)
   .catch(err => console.error("❌ MongoDB connection error:", err));
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 
@@ -30,6 +30,5 @@ app.get("/api/leaderboard", async (req, res) => {
 // ✅ Protected admin routes
 app.use("/api/admin", adminRoutes);
 
-app.listen(3001, () => {
-    console.log("Server running on http://localhost:3001");
-});
+export const handler = serverless(app);
+
