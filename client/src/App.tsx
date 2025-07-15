@@ -5,6 +5,14 @@ function App() {
 
   const auth = useAuth();
 
+  const signOutRedirect = () => {
+    const clientId = import.meta.env.VITE_COGNITO_CLIENT_ID;
+    const logoutUri = import.meta.env.VITE_COGNITO_REDIRECT_URI;
+    const cognitoDomain = import.meta.env.VITE_COGNITO_DOMAIN;
+
+    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+  };
+
   if (auth.isLoading) return <p>Loading...</p>;
   if (auth.error) return <p>Error: {auth.error.message}</p>;
 
@@ -12,7 +20,7 @@ function App() {
     return (
       <div>
         <h1>Welcome, {auth.user?.profile.email}</h1>
-        <button onClick={() => auth.removeUser()}>Sign out</button>
+        <button onClick={signOutRedirect}>Sign out</button>
       </div>
     );
   }
