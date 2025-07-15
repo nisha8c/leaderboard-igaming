@@ -12,9 +12,10 @@ const AdminDashboard = () => {
   const [players, setPlayers] = useState<Player[]>([]);
   const [name, setName] = useState('');
   const [score, setScore] = useState(0);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const fetchPlayers = async () => {
-    const res = await fetch('/api/leaderboard');
+    const res = await fetch(`${API_URL}/api/leaderboard`);
     const data = await res.json();
     setPlayers(data);
   };
@@ -27,7 +28,7 @@ const AdminDashboard = () => {
   }, []);
 
   const addPlayer = async () => {
-    const res = await fetch('/api/admin/add-player', {
+    const res = await fetch(`${API_URL}/api/admin/add-player`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -42,7 +43,7 @@ const AdminDashboard = () => {
   };
 
   const deletePlayer = async (id: string) => {
-    const res = await fetch(`/api/admin/delete-player/${id}`, {
+    const res = await fetch(`${API_URL}/api/admin/delete-player/${id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${auth.user?.access_token}`,

@@ -10,9 +10,10 @@ type Player = {
 const Leaderboard = () => {
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/leaderboard')
+    fetch(`${API_URL}/api/leaderboard`)
       .then(res => res.json())
       .then(data => {
         setPlayers(data);
