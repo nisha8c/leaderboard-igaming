@@ -8,6 +8,9 @@ function App() {
   const groups: string[] = Array.isArray(auth.user?.profile["cognito:groups"])
     ? auth.user?.profile["cognito:groups"]
     : [];
+  console.log("Access token:", auth.user?.access_token);
+  console.log("Groups:", auth.user?.profile["cognito:groups"]);
+
 
   const signOutRedirect = async () => {
     await auth.removeUser();

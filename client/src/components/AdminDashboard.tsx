@@ -34,7 +34,7 @@ const AdminDashboard = () => {
     });
     if (res.ok) {
       alert('Player added!');
-      fetchPlayers();
+      await fetchPlayers();
     }
   };
 
@@ -45,7 +45,7 @@ const AdminDashboard = () => {
         Authorization: `Bearer ${auth.user?.access_token}`,
       },
     });
-    if (res.ok) fetchPlayers();
+    if (res.ok) await fetchPlayers();
   };
 
   return (
