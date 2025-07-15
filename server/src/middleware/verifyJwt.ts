@@ -11,9 +11,11 @@ declare global {
 import jwt, { JwtHeader } from 'jsonwebtoken';
 import jwksClient from "jwks-rsa";
 import { Request, Response, NextFunction } from "express";
+import dotenv from "dotenv";
+dotenv.config();
 
 const client = jwksClient({
-  jwksUri: "https://YOUR-USERPOOL-DOMAIN.auth.eu-north-1.amazoncognito.com/.well-known/jwks.json",
+  jwksUri: `https://cognito-idp.eu-north-1.amazonaws.com/${process.env.USER_POOL_ID}/.well-known/jwks.json`,
 });
 
 function getKey(header: JwtHeader, callback: jwt.SigningKeyCallback) {
@@ -43,7 +45,7 @@ export function verifyJwt(req: Request, res: Response, next: NextFunction) {
     getKey,
     {
       algorithms: ["RS256"],
-      issuer: "https://cognito-idp.eu-north-1.amazonaws.com/YOUR_USER_POOL_ID",
+      issuer: `https://cognito-idp.eu-north-1.amazonaws.com/${process.env.USER_POOL_ID}`,
     },
     (err, decoded) => {
       if (err) {
@@ -51,6 +53,7 @@ export function verifyJwt(req: Request, res: Response, next: NextFunction) {
         return res.status(401).json({ error: "Invalid token" });
       }
       req.user = decoded;
+      console.log("✅ Decoded JWT payload:", decoded);
       next();
     }
   );

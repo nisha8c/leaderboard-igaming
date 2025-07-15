@@ -17,6 +17,8 @@ jobs:
 
     env:
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      USER_POOL_ID: ${{ secrets.USER_POOL_ID }}
+      USER_POOL_DOMAIN: ${{ secrets.USER_POOL_DOMAIN }}
 
     steps:
       - name: Checkout repo
