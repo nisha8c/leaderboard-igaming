@@ -19,6 +19,9 @@ const AdminDashboard = () => {
     setPlayers(data);
   };
 
+  console.log('access token from AdminDashboard:', auth.user?.access_token)
+
+
   useEffect(() => {
     fetchPlayers();
   }, []);
