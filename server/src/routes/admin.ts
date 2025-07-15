@@ -14,10 +14,11 @@ router.post("/add-player", verifyJwt, async (req, res) => {
   if (!req.user["cognito:groups"]?.includes("admin")) {
     return res.status(403).json({ message: "Admins only" });
   }
+  console.log('Incoming add-player body:', req.body);
 
   const { name, score } = req.body;
 
-  if (!name || !score) {
+  if (!name || score === undefined || score === null) {
     return res.status(400).json({ message: "Name and score are required" });
   }
 

@@ -28,6 +28,7 @@ const AdminDashboard = () => {
   }, []);
 
   const addPlayer = async () => {
+    console.log('Payload to send:', { name, score });
     const res = await fetch(`${API_URL}/api/admin/add-player`, {
       method: 'POST',
       headers: {
