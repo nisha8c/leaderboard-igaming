@@ -26,7 +26,7 @@ function App() {
 
   if (auth.isAuthenticated) {
     return (
-      <Container className="mt-4">
+      <Container className="mt-4 d-flex flex-column align-items-center text-center">
         <h1>Welcome, {auth.user?.profile.email}</h1>
         <Button variant="outline-secondary" size="sm" onClick={signOutRedirect}>
           Sign out
@@ -64,7 +64,7 @@ function App() {
   }
 
   return (
-    <Container className="mt-5">
+    <Container className="mt-5 d-flex flex-column align-items-center text-center">
       <Button onClick={() => auth.signinRedirect()}>Sign in</Button>
     </Container>
   );
