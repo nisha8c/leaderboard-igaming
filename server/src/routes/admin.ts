@@ -15,12 +15,19 @@ router.post("/add-player", verifyJwt, async (req, res) => {
     return res.status(403).json({ message: "Admins only" });
   }
 
-  // ✅ Fix for API Gateway Lambda: parse if string
-  if (typeof req.body === 'string') {
+  // ✅ Handle Lambda: Buffer or string!
+  if (Buffer.isBuffer(req.body)) {
+    try {
+      req.body = JSON.parse(req.body.toString('utf8'));
+    } catch (err) {
+      console.error("❌ Failed to parse Buffer req.body:", err);
+      return res.status(400).json({ message: "Invalid Buffer JSON body" });
+    }
+  } else if (typeof req.body === 'string') {
     try {
       req.body = JSON.parse(req.body);
     } catch (err) {
-      console.error("Failed to parse req.body:", err);
+      console.error("❌ Failed to parse req.body string:", err);
       return res.status(400).json({ message: "Invalid JSON body" });
     }
   }
