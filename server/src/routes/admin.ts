@@ -66,6 +66,8 @@ router.put("/update-score/:id", verifyJwt, async (req, res) => {
     { new: true }
   );
 
+  console.log('UPDATED player: ', updated);
+
   res.json({ message: "Score updated!", updated });
 });
 
