@@ -56,6 +56,7 @@ router.put("/update-score/:id", verifyJwt, async (req, res) => {
   }
 
   const { name, score } = req.body;
+  console.log('Updating with ::::', name, ' and ', score);
   const updated = await Player.findByIdAndUpdate(
     req.params.id,
     {

@@ -16,7 +16,7 @@ const AdminDashboard = () => {
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState('');
-  const [editScore, setEditScore] = useState<number>(0);
+  const [editScore, setEditScore] = useState<number | null>(0);
 
 
   const fetchPlayers = async () => {
@@ -69,6 +69,9 @@ const AdminDashboard = () => {
       body: JSON.stringify({ name: editName, score: editScore }),
     });
 
+    console.log('Updating with:', { name: editName, score: editScore });
+
+
     if (res.ok) {
       alert('Player updated!');
       setEditingId(null);
@@ -101,7 +104,7 @@ const AdminDashboard = () => {
           {players.map((p) => (
             <li key={p._id}>
               {editingId === p._id ? (
-                <>
+                  <>
                   <input
                     placeholder="Name"
                     value={editName}
@@ -110,18 +113,18 @@ const AdminDashboard = () => {
                   <input
                     type="number"
                     placeholder="Score"
-                    value={editScore}
-                    onChange={(e) => setEditScore(Number(e.target.value))}
+                    value={editScore ?? ''}
+                    onChange={(e) => setEditScore(e.target.value === '' ? null : Number(e.target.value))}
                   />
                   <button
                     onClick={() => updatePlayer(p._id)}
-                    disabled={!editName || !editScore}
+                    disabled={editName.trim() === '' && (editScore === null || isNaN(editScore))}
                   >
-                    Save
+                  Save
                   </button>
-                  <button onClick={() => setEditingId(null)}>Cancel</button>
+                <button onClick={() => setEditingId(null)}>Cancel</button>
                 </>
-              ) : (
+                ) : (
                 <>
                   {p.name} — {p.score} pts
                   <button onClick={() => {
