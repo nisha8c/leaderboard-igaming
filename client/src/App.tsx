@@ -3,7 +3,7 @@ import { AdminDashboard, Leaderboard } from './components';
 import { useState } from 'react';
 import { Button, Container, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import './App.css';
 
 function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
