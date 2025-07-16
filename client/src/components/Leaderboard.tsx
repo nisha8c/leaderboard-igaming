@@ -1,5 +1,5 @@
-// Leaderboard.tsx
 import { useEffect, useState } from 'react';
+import { ListGroup, Spinner, Container } from 'react-bootstrap';
 
 type Player = {
   name: string;
@@ -25,21 +25,23 @@ const Leaderboard = () => {
       });
   }, []);
 
-  if (loading) return <p>Loading leaderboard...</p>;
+  if (loading) return <Spinner animation="border" />;
 
   return (
-    <div>
+    <Container className="mt-4">
       <h2>🏆 Leaderboard</h2>
-      <ul>
+      <ListGroup>
         {players.map((player, index) => (
-          <li key={index}>
+          <ListGroup.Item key={index}>
             <strong>{player.name}</strong> — {player.score} points
             <br />
-            <small>Last updated: {new Date(player.lastUpdated).toLocaleString()}</small>
-          </li>
+            <small>
+              Last updated: {new Date(player.lastUpdated).toLocaleString()}
+            </small>
+          </ListGroup.Item>
         ))}
-      </ul>
-    </div>
+      </ListGroup>
+    </Container>
   );
 };
 

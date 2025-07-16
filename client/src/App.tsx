@@ -1,8 +1,9 @@
-import './App.css'
 import { useAuth } from 'react-oidc-context';
 import { AdminDashboard, Leaderboard } from './components';
 import { useState } from 'react';
-import Modal from 'react-modal';
+import { Button, Container, Modal } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
@@ -10,9 +11,6 @@ function App() {
   const groups: string[] = Array.isArray(auth.user?.profile["cognito:groups"])
     ? auth.user?.profile["cognito:groups"]
     : [];
-  console.log("Access token:", auth.user?.access_token);
-  console.log("Groups:", auth.user?.profile["cognito:groups"]);
-
 
   const signOutRedirect = async () => {
     await auth.removeUser();
@@ -28,30 +26,48 @@ function App() {
 
   if (auth.isAuthenticated) {
     return (
-      <div>
+      <Container className="mt-4">
         <h1>Welcome, {auth.user?.profile.email}</h1>
-        <button onClick={signOutRedirect}>Sign out</button>
+        <Button variant="outline-secondary" size="sm" onClick={signOutRedirect}>
+          Sign out
+        </Button>
 
         <Leaderboard />
 
         {groups.includes('admin') && (
-          <div>
-            <button onClick={() => setIsAdminOpen(true)}>Manage Players</button>
-            <Modal
-              isOpen={isAdminOpen}
-              onRequestClose={() => setIsAdminOpen(false)}
-              contentLabel="Admin Dashboard"
+          <>
+            <Button
+              variant="primary"
+              className="mt-3"
+              onClick={() => setIsAdminOpen(true)}
             >
-              <button onClick={() => setIsAdminOpen(false)}>Close</button>
-              <AdminDashboard />
+              Manage Players
+            </Button>
+
+            <Modal show={isAdminOpen} onHide={() => setIsAdminOpen(false)} centered>
+              <Modal.Header closeButton>
+                <Modal.Title>Admin Dashboard</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <AdminDashboard />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={() => setIsAdminOpen(false)}>
+                  Close
+                </Button>
+              </Modal.Footer>
             </Modal>
-          </div>
+          </>
         )}
-      </div>
+      </Container>
     );
   }
 
-  return <button onClick={() => auth.signinRedirect()}>Sign in</button>;
+  return (
+    <Container className="mt-5">
+      <Button onClick={() => auth.signinRedirect()}>Sign in</Button>
+    </Container>
+  );
 }
 
 export default App
