@@ -1,4 +1,3 @@
-// src/components/Leaderboard.tsx
 import { useEffect, useState } from 'react';
 import { ListGroup, Spinner, Container } from 'react-bootstrap';
 
@@ -14,7 +13,7 @@ type LeaderboardProps = {
   onEditPlayer?: (player: Player) => void;
 };
 
-export const Leaderboard = ({ isAdmin, onEditPlayer }: LeaderboardProps) => {
+const Leaderboard = ({ isAdmin, onEditPlayer }: LeaderboardProps) => {
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
   const API_URL = import.meta.env.VITE_API_URL;
@@ -53,3 +52,4 @@ export const Leaderboard = ({ isAdmin, onEditPlayer }: LeaderboardProps) => {
     </Container>
   );
 };
+export default Leaderboard;
