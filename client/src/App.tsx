@@ -1,9 +1,11 @@
 import './App.css'
 import { useAuth } from 'react-oidc-context';
 import { AdminDashboard, Leaderboard } from './components';
+import { useState } from 'react';
+import Modal from 'react-modal';
 
 function App() {
-
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
   const auth = useAuth();
   const groups: string[] = Array.isArray(auth.user?.profile["cognito:groups"])
     ? auth.user?.profile["cognito:groups"]
@@ -29,8 +31,22 @@ function App() {
       <div>
         <h1>Welcome, {auth.user?.profile.email}</h1>
         <button onClick={signOutRedirect}>Sign out</button>
+
         <Leaderboard />
-        {groups.includes('admin') && <AdminDashboard />}
+
+        {groups.includes('admin') && (
+          <div>
+            <button onClick={() => setIsAdminOpen(true)}>Manage Players</button>
+            <Modal
+              isOpen={isAdminOpen}
+              onRequestClose={() => setIsAdminOpen(false)}
+              contentLabel="Admin Dashboard"
+            >
+              <button onClick={() => setIsAdminOpen(false)}>Close</button>
+              <AdminDashboard />
+            </Modal>
+          </div>
+        )}
       </div>
     );
   }
