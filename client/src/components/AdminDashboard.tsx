@@ -37,6 +37,7 @@ const AdminDashboard = () => {
       },
       body: JSON.stringify({ name, score }),
     });
+    console.log('res payload: ', res);
     if (res.ok) {
       alert('Player added!');
       await fetchPlayers();
