@@ -21,10 +21,21 @@ app.get("/", (req, res) => {
 });
 
 // routes
+/*
 app.get("/api/leaderboard", async (req, res) => {
     const topPlayers = await Player.find().sort({ score: -1 }).limit(10);
     res.json(topPlayers);
+}); */
+app.get("/api/leaderboard", async (req, res) => {
+    const { all } = req.query;
+    let query = Player.find().sort({ score: -1 });
+    if (!req.user?.['cognito:groups']?.includes('admin') || all !== 'true') {
+        query = query.limit(10);
+    }
+    const players = await query.exec();
+    res.json(players);
 });
+
 
 // Protected admin routes
 app.use("/api/admin", adminRoutes);

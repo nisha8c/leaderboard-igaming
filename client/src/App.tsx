@@ -10,6 +10,7 @@ import type { Player } from './types/types.ts';
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editPlayer, setEditPlayer] = useState<Player | null>(null);
+  const [showAll, setShowAll] = useState(false);
 
   const auth = useAuth();
   const groups: string[] = Array.isArray(auth.user?.profile["cognito:groups"])
@@ -48,7 +49,17 @@ function App() {
           Sign out
         </Button>
 
-        <Leaderboard isAdmin={isAdmin} onEditPlayer={handleEditPlayer} />
+        <Leaderboard isAdmin={isAdmin} onEditPlayer={handleEditPlayer} showAll={showAll} />
+
+        { isAdmin && (
+          <Button
+            variant="outline-info"
+            className="mt-2"
+            onClick={() => setShowAll((prev) => !prev)}
+          >
+            {showAll ? 'Show Top 10' : 'Show All Players'}
+          </Button>
+        )}
 
         {isAdmin && (
           <>
