@@ -4,12 +4,8 @@ import { useState } from 'react';
 import { Button, Container, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import type { Player } from './types/types.ts';
 
-type Player = {
-  _id: string;
-  name: string;
-  score: number;
-};
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);

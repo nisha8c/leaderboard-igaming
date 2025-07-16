@@ -1,12 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ListGroup, Spinner, Container } from 'react-bootstrap';
-
-type Player = {
-  _id: string;
-  name: string;
-  score: number;
-  lastUpdated: string;
-};
+import type { AppDispatch, RootState } from '../redux/store.ts';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPlayers } from '../redux/slices/playerSlice.ts';
+import type { Player } from '../types/types.ts';
 
 type LeaderboardProps = {
   isAdmin: boolean;
@@ -14,24 +11,16 @@ type LeaderboardProps = {
 };
 
 const Leaderboard = ({ isAdmin, onEditPlayer }: LeaderboardProps) => {
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [loading, setLoading] = useState(true);
-  const API_URL = import.meta.env.VITE_API_URL;
+
+  const dispatch: AppDispatch = useDispatch();
+  const { players, loading, error } = useSelector((state: RootState) => state.players);
 
   useEffect(() => {
-    fetch(`${API_URL}/api/leaderboard`)
-      .then(res => res.json())
-      .then(data => {
-        setPlayers(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Failed to fetch leaderboard:", err);
-        setLoading(false);
-      });
-  }, []);
+    dispatch(fetchPlayers());
+  }, [dispatch]);
 
   if (loading) return <Spinner animation="border" />;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <Container className="mt-4">
@@ -41,11 +30,11 @@ const Leaderboard = ({ isAdmin, onEditPlayer }: LeaderboardProps) => {
           <ListGroup.Item
             key={player._id}
             action={isAdmin}
-            onClick={isAdmin ? () => onEditPlayer?.(player) : undefined}
+            onClick={() => isAdmin && onEditPlayer?.(player)}
           >
             <strong>{player.name}</strong> — {player.score} pts
             <br />
-            <small>Last updated: {new Date(player.lastUpdated).toLocaleString()}</small>
+            <small>Last updated: {new Date(player.lastUpdated ?? '').toLocaleString()}</small>
           </ListGroup.Item>
         ))}
       </ListGroup>

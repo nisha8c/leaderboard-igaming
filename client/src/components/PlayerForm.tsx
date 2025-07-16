@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { Button, Form, Stack } from 'react-bootstrap';
 import { useAuth } from 'react-oidc-context';
-
-type Player = {
-  _id?: string;
-  name: string;
-  score: number;
-};
+import { useDispatch } from 'react-redux';
+import type { AppDispatch } from '../redux/store.ts';
+import { fetchPlayers } from '../redux/slices/playerSlice.ts';
+import type { Player } from '../types/types.ts';
 
 type PlayerFormProps = {
   mode: 'add' | 'edit';
@@ -20,6 +18,7 @@ const PlayerForm = ({ mode, player, onSuccess }: PlayerFormProps) => {
 
   const auth = useAuth();
   const API_URL = import.meta.env.VITE_API_URL;
+  const dispatch: AppDispatch = useDispatch();
 
   const isFormInvalid =
     name.trim().length === 0 || name.length > 50 || score === null || isNaN(score) || score < 0;
@@ -43,6 +42,7 @@ const PlayerForm = ({ mode, player, onSuccess }: PlayerFormProps) => {
 
     if (res.ok) {
       alert(`Player ${mode === 'add' ? 'added' : 'updated'}!`);
+      dispatch(fetchPlayers());
       onSuccess();
     } else {
       alert('Something went wrong.');
@@ -62,6 +62,7 @@ const PlayerForm = ({ mode, player, onSuccess }: PlayerFormProps) => {
 
     if (res.ok) {
       alert('Player deleted!');
+      dispatch(fetchPlayers());
       onSuccess();
     } else {
       alert('Failed to delete player.');
