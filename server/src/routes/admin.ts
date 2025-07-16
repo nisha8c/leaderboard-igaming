@@ -55,10 +55,14 @@ router.put("/update-score/:id", verifyJwt, async (req, res) => {
     return res.status(403).json({ message: "Admins only" });
   }
 
-  const { score } = req.body;
+  const { name, score } = req.body;
   const updated = await Player.findByIdAndUpdate(
     req.params.id,
-    { score, lastUpdated: new Date() },
+    {
+      ...(name && { name }),
+      ...(score !== undefined && { score }),
+      lastUpdated: new Date(),
+    },
     { new: true }
   );
 
