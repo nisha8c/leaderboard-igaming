@@ -1,16 +1,26 @@
 import { useAuth } from 'react-oidc-context';
-import { AdminDashboard, Leaderboard } from './components';
+import { Leaderboard, PlayerForm } from './components';
 import { useState } from 'react';
 import { Button, Container, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
+type Player = {
+  _id: string;
+  name: string;
+  score: number;
+};
+
 function App() {
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editPlayer, setEditPlayer] = useState<Player | null>(null);
+
   const auth = useAuth();
   const groups: string[] = Array.isArray(auth.user?.profile["cognito:groups"])
     ? auth.user?.profile["cognito:groups"]
     : [];
+
+  const isAdmin = groups.includes('admin');
 
   const signOutRedirect = async () => {
     await auth.removeUser();
@@ -19,6 +29,16 @@ function App() {
     const cognitoDomain = import.meta.env.VITE_COGNITO_DOMAIN;
 
     window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+  };
+
+  const handleOpenAdd = () => {
+    setEditPlayer(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditPlayer = (player: Player) => {
+    setEditPlayer(player);
+    setIsModalOpen(true);
   };
 
   if (auth.isLoading) return <p>Loading...</p>;
@@ -32,27 +52,31 @@ function App() {
           Sign out
         </Button>
 
-        <Leaderboard />
+        <Leaderboard isAdmin={isAdmin} onEditPlayer={handleEditPlayer} />
 
-        {groups.includes('admin') && (
+        {isAdmin && (
           <>
             <Button
               variant="primary"
               className="mt-3"
-              onClick={() => setIsAdminOpen(true)}
+              onClick={handleOpenAdd}
             >
-              Manage Players
+              ➕ Add Player
             </Button>
 
-            <Modal show={isAdminOpen} onHide={() => setIsAdminOpen(false)} centered>
+            <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} centered>
               <Modal.Header closeButton>
-                <Modal.Title>Admin Dashboard</Modal.Title>
+                <Modal.Title>{editPlayer ? 'Edit Player' : 'Add Player'}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <AdminDashboard />
+                <PlayerForm
+                  mode={editPlayer ? 'edit' : 'add'}
+                  player={editPlayer || undefined}
+                  onSuccess={() => setIsModalOpen(false)}
+                />
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" onClick={() => setIsAdminOpen(false)}>
+                <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
                   Close
                 </Button>
               </Modal.Footer>
