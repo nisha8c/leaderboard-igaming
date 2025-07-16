@@ -31,8 +31,8 @@ router.post("/add-player", verifyJwt, async (req, res) => {
 
   console.log("name:", name, ' score: ', score);
 
-  if (!name || !score) {
-    return res.status(400).json({ message: "Name and score are required ...." });
+  if (!name || typeof score !== 'number' || isNaN(score)) {
+    return res.status(400).json({ message: "Name is required and score must be a valid number" });
   }
 
   const player = new Player({ name, score });

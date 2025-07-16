@@ -91,7 +91,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-eu-north-1-104469aa-ff48",
-          "S3Key": "serverless/leaderboard-backend/dev/1752611903858-2025-07-15T20:38:23.858Z/leaderboard-backend.zip"
+          "S3Key": "serverless/leaderboard-backend/dev/1752642169310-2025-07-16T05:02:49.310Z/leaderboard-backend.zip"
         },
         "Handler": "src/index.handler",
         "Runtime": "nodejs20.x",
@@ -118,14 +118,14 @@
         "ApiLogGroup"
       ]
     },
-    "ApiLambdaVersionVlVLzGmZpEML6IE7bjwf026xyR7jt8taXUoArf41GO4": {
+    "ApiLambdaVersionxXc1cynyqHOkYvbdlmSwXG4FQJ4bfHinieXJDun77Cs": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ApiLambdaFunction"
         },
-        "CodeSha256": "zBMbGUhRz+Lgt6a/oxguIB3qF0WBkvBZtFZRSXqaV8E="
+        "CodeSha256": "QUlQ/Hk2Nwf8Dd6PqfvH15KS3J7nS6nBYp6j8mpzrdc="
       }
     },
     "ApiGatewayRestApi": {
@@ -140,7 +140,7 @@
         "Policy": ""
       }
     },
-    "ApiGatewayResourceProxyVar": {
+    "ApiGatewayResourceApi": {
       "Type": "AWS::ApiGateway::Resource",
       "Properties": {
         "ParentId": {
@@ -148,6 +148,18 @@
             "ApiGatewayRestApi",
             "RootResourceId"
           ]
+        },
+        "PathPart": "api",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceApiProxyVar": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourceApi"
         },
         "PathPart": "{proxy+}",
         "RestApiId": {
@@ -204,13 +216,13 @@
         "ApiLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayMethodProxyVarAny": {
+    "ApiGatewayMethodApiProxyVarAny": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "HttpMethod": "ANY",
         "RequestParameters": {},
         "ResourceId": {
-          "Ref": "ApiGatewayResourceProxyVar"
+          "Ref": "ApiGatewayResourceApiProxyVar"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -250,7 +262,7 @@
         "ApiLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1752611897563": {
+    "ApiGatewayDeployment1752642147384": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -260,7 +272,7 @@
       },
       "DependsOn": [
         "ApiGatewayMethodAny",
-        "ApiGatewayMethodProxyVarAny"
+        "ApiGatewayMethodApiProxyVarAny"
       ]
     },
     "ApiLambdaPermissionApiGateway": {
@@ -311,7 +323,7 @@
     "ApiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersionVlVLzGmZpEML6IE7bjwf026xyR7jt8taXUoArf41GO4"
+        "Ref": "ApiLambdaVersionxXc1cynyqHOkYvbdlmSwXG4FQJ4bfHinieXJDun77Cs"
       },
       "Export": {
         "Name": "sls-leaderboard-backend-dev-ApiLambdaFunctionQualifiedArn"
