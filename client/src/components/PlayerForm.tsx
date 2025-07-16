@@ -21,6 +21,9 @@ const PlayerForm = ({ mode, player, onSuccess }: PlayerFormProps) => {
   const auth = useAuth();
   const API_URL = import.meta.env.VITE_API_URL;
 
+  const isFormInvalid =
+    name.trim().length === 0 || name.length > 50 || score === null || isNaN(score) || score < 0;
+
   const handleSubmit = async () => {
     const endpoint =
       mode === 'add'
@@ -46,6 +49,25 @@ const PlayerForm = ({ mode, player, onSuccess }: PlayerFormProps) => {
     }
   };
 
+  const handleDelete = async () => {
+    const confirmed = window.confirm('Are you sure you want to delete this player?');
+    if (!confirmed || !player?._id) return;
+
+    const res = await fetch(`${API_URL}/api/admin/delete-player/${player._id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${auth.user?.access_token}`,
+      },
+    });
+
+    if (res.ok) {
+      alert('Player deleted!');
+      onSuccess();
+    } else {
+      alert('Failed to delete player.');
+    }
+  };
+
   return (
     <Stack gap={2}>
       <Form.Control
@@ -61,17 +83,16 @@ const PlayerForm = ({ mode, player, onSuccess }: PlayerFormProps) => {
       />
       <Button
         variant={mode === 'add' ? 'success' : 'primary'}
-        disabled={
-          name.trim().length === 0 ||
-          name.length > 50 ||
-          score === null ||
-          isNaN(score) ||
-          score < 0
-        }
+        disabled={isFormInvalid}
         onClick={handleSubmit}
       >
         {mode === 'add' ? 'Add Player' : 'Save Changes'}
       </Button>
+      {mode === 'edit' && (
+        <Button variant="danger" onClick={handleDelete}>
+          Delete
+        </Button>
+      )}
     </Stack>
   );
 };
