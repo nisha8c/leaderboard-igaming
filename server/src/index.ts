@@ -16,19 +16,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-
-// ✅ Root route
 app.get("/", (req, res) => {
-    res.send("Server is running! 🎉");
+    res.send("Server is running!");
 });
 
-// ✅ Public routes (like GET leaderboard)
+// routes
 app.get("/api/leaderboard", async (req, res) => {
     const topPlayers = await Player.find().sort({ score: -1 }).limit(10);
     res.json(topPlayers);
 });
 
-// ✅ Protected admin routes
+// Protected admin routes
 app.use("/api/admin", adminRoutes);
 
 export const handler = serverless(app);

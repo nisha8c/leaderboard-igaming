@@ -1,4 +1,3 @@
-// server/src/middleware/verifyJwt.ts
 declare global {
   namespace Express {
     interface Request {
@@ -53,7 +52,7 @@ export function verifyJwt(req: Request, res: Response, next: NextFunction) {
         return res.status(401).json({ error: "Invalid token" });
       }
       req.user = decoded;
-      console.log("✅ Decoded JWT payload:", decoded);
+      console.log("Decoded JWT payload:", decoded);
       next();
     }
   );

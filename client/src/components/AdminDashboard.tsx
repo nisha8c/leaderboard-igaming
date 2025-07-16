@@ -95,7 +95,17 @@ const AdminDashboard = () => {
           value={score}
           onChange={(e) => setScore(Number(e.target.value))}
         />
-        <button onClick={addPlayer} disabled={!name || !score}>Add</button>
+        <button
+          onClick={addPlayer}
+          disabled={
+            name.trim().length === 0 ||
+            name.length > 50 ||
+            isNaN(score) ||
+            score < 0
+          }
+        >
+          Add
+        </button>
       </div>
 
       <div>
@@ -104,7 +114,7 @@ const AdminDashboard = () => {
           {players.map((p) => (
             <li key={p._id}>
               {editingId === p._id ? (
-                  <>
+                <>
                   <input
                     placeholder="Name"
                     value={editName}
@@ -118,7 +128,13 @@ const AdminDashboard = () => {
                   />
                   <button
                     onClick={() => updatePlayer(p._id)}
-                    disabled={editName.trim() === '' && (editScore === null || isNaN(editScore))}
+                    disabled={
+                      editName.trim().length === 0 ||
+                      editName.length > 50 ||
+                      editScore === null ||
+                      isNaN(editScore) ||
+                      editScore < 0
+                    }
                   >
                   Save
                   </button>
