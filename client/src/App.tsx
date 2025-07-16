@@ -80,6 +80,7 @@ function App() {
                   mode={editPlayer ? 'edit' : 'add'}
                   player={editPlayer || undefined}
                   onSuccess={() => setIsModalOpen(false)}
+                  showAll={showAll}
                 />
               </Modal.Body>
               <Modal.Footer>

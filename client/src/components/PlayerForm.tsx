@@ -10,9 +10,10 @@ type PlayerFormProps = {
   mode: 'add' | 'edit';
   player?: Player;
   onSuccess: () => void;
+  showAll?: boolean;
 };
 
-const PlayerForm = ({ mode, player, onSuccess }: PlayerFormProps) => {
+const PlayerForm = ({ mode, player, onSuccess, showAll = false }: PlayerFormProps) => {
   const [name, setName] = useState(player?.name || '');
   const [score, setScore] = useState<number | null>(player?.score ?? 0);
 
@@ -42,7 +43,7 @@ const PlayerForm = ({ mode, player, onSuccess }: PlayerFormProps) => {
 
     if (res.ok) {
       alert(`Player ${mode === 'add' ? 'added' : 'updated'}!`);
-      dispatch(fetchPlayers());
+      dispatch(fetchPlayers({ all: showAll }));
       onSuccess();
     } else {
       alert('Something went wrong.');
@@ -62,7 +63,7 @@ const PlayerForm = ({ mode, player, onSuccess }: PlayerFormProps) => {
 
     if (res.ok) {
       alert('Player deleted!');
-      dispatch(fetchPlayers());
+      dispatch(fetchPlayers({ all: showAll }));
       onSuccess();
     } else {
       alert('Failed to delete player.');
