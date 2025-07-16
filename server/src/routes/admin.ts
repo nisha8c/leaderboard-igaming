@@ -29,8 +29,10 @@ router.post("/add-player", verifyJwt, async (req, res) => {
 
   const { name, score } = req.body;
 
-  if (!name || score === undefined || score === null) {
-    return res.status(400).json({ message: "Name and score are required" });
+  console.log("name:", name, ' score: ', score);
+
+  if (!name || !score) {
+    return res.status(400).json({ message: "Name and score are required ...." });
   }
 
   const player = new Player({ name, score });
