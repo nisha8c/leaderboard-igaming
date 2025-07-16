@@ -5,6 +5,7 @@ import Player from './models/Player';
 import * as mongoose from 'mongoose';
 import dotenv from "dotenv";
 import serverless from "serverless-http";
+import { verifyJwt } from './middleware/verifyJwt';
 
 dotenv.config();
 
@@ -26,12 +27,16 @@ app.get("/api/leaderboard", async (req, res) => {
     const topPlayers = await Player.find().sort({ score: -1 }).limit(10);
     res.json(topPlayers);
 }); */
-app.get("/api/leaderboard", async (req, res) => {
+app.get("/api/leaderboard", verifyJwt, async (req, res) => {
     const { all } = req.query;
+
     let query = Player.find().sort({ score: -1 });
-    if (!req.user?.['cognito:groups']?.includes('admin') || all !== 'true') {
+
+    const isAdmin = req.user?.['cognito:groups']?.includes('admin');
+    if (!isAdmin || all !== 'true') {
         query = query.limit(10);
     }
+
     const players = await query.exec();
     res.json(players);
 });

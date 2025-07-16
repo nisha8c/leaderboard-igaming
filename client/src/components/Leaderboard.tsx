@@ -4,6 +4,7 @@ import type { AppDispatch, RootState } from '../redux/store.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPlayers } from '../redux/slices/playerSlice.ts';
 import type { Player } from '../types/types.ts';
+import { useAuth } from 'react-oidc-context';
 
 type LeaderboardProps = {
   isAdmin: boolean;
@@ -12,13 +13,13 @@ type LeaderboardProps = {
 };
 
 const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
-
+  const auth = useAuth();
   const dispatch: AppDispatch = useDispatch();
   const { players, loading, error } = useSelector((state: RootState) => state.players);
 
   useEffect(() => {
-    dispatch(fetchPlayers({ all: isAdmin && showAll }));
-  }, [dispatch, isAdmin, showAll]);
+    dispatch(fetchPlayers({ all: isAdmin && showAll, token: auth.user?.access_token }));
+  }, [dispatch, isAdmin, showAll, auth.user]);
 
   if (loading) return <Spinner animation="border" />;
   if (error) return <p>Error: {error}</p>;

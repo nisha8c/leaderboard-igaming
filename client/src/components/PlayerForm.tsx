@@ -43,7 +43,7 @@ const PlayerForm = ({ mode, player, onSuccess, showAll = false }: PlayerFormProp
 
     if (res.ok) {
       alert(`Player ${mode === 'add' ? 'added' : 'updated'}!`);
-      dispatch(fetchPlayers({ all: showAll }));
+      dispatch(fetchPlayers({ all: showAll, token: auth.user?.access_token }));
       onSuccess();
     } else {
       alert('Something went wrong.');
@@ -63,7 +63,7 @@ const PlayerForm = ({ mode, player, onSuccess, showAll = false }: PlayerFormProp
 
     if (res.ok) {
       alert('Player deleted!');
-      dispatch(fetchPlayers({ all: showAll }));
+      dispatch(fetchPlayers({ all: showAll, token: auth.user?.access_token }));
       onSuccess();
     } else {
       alert('Failed to delete player.');

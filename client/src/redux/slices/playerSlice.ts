@@ -16,19 +16,15 @@ const initialState: State = {
 };
 
 // Thunks
-/*
-export const fetchPlayers = createAsyncThunk('players/fetch', async () => {
-  const res = await fetch(`${API_URL}/api/leaderboard`);
-  return await res.json();
-});*/
 export const fetchPlayers = createAsyncThunk(
   'players/fetch',
-  async ({ all = false }: { all?: boolean } = {}) => {
-    const res = await fetch(`${API_URL}/api/leaderboard${all ? '?all=true' : ''}`);
+  async ({ all = false, token }: { all?: boolean; token?: string } = {}) => {
+    const res = await fetch(`${API_URL}/api/leaderboard${all ? '?all=true' : ''}`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
     return res.json() as Promise<Player[]>;
   }
 );
-
 
 const playerSlice = createSlice({
   name: 'players',
