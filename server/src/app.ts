@@ -28,9 +28,9 @@ app.get("/api/leaderboard", verifyJwt, async (req, res) => {
 
 app.get("/api/leaderboard", verifyJwt, async (req, res) => {
   const { all, search = "", sortBy = "score", sortOrder = "desc", page = "1", limit = "10" } = req.query;
-
+  console.log("🔍 Query Params:", { all, search, sortBy, sortOrder, page, limit });
   const isAdmin = req.user?.['cognito:groups']?.includes('admin');
-
+  console.log("👤 Is Admin:", isAdmin);
   let query = Player.find({
     name: { $regex: search.toString(), $options: "i" },
   });
@@ -52,7 +52,7 @@ app.get("/api/leaderboard", verifyJwt, async (req, res) => {
       name: { $regex: search.toString(), $options: "i" },
     }) : Promise.resolve(0)
   ]);
-
+  console.log("📦 Returning:", { total, count: players.length });
   res.json({ players, total });
 });
 

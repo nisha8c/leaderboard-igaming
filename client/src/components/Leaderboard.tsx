@@ -24,6 +24,7 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
   const limit = 10;
 
   useEffect(() => {
+    console.log("📤 Fetching with:", { search, sortBy, sortOrder, page });
     dispatch(
       fetchPlayers({
         all: isAdmin && showAll,
@@ -41,6 +42,8 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
 
   if (loading) return <Spinner animation="border" />;
   if (error) return <p>Error: {error}</p>;
+
+  console.log("📥 Players from Redux:", players);
 
   return (
     <Container className="mt-4">

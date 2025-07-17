@@ -57,6 +57,8 @@ export const fetchPlayers = createAsyncThunk(
     params.append('page', page.toString());
     params.append('limit', limit.toString());
 
+    console.log("🌐 Fetch URL:", `${API_URL}/api/leaderboard?${params.toString()}`);
+
     const res = await fetch(`${API_URL}/api/leaderboard?${params.toString()}`, {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     });
