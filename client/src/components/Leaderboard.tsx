@@ -42,7 +42,7 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
 
   return (
     <Container className="mt-4">
-      <h2>🏆 Leaderboard</h2>
+      <h2>{isAdmin ? '🛠️ Admin Dashboard' : '🏆 Leaderboard'}</h2>
       {isAdmin && (
         <Badge bg={showAll ? 'secondary' : 'info'} className="ms-2">
           {showAll ? 'All Players' : 'Top 10'}
