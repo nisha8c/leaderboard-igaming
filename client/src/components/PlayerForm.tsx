@@ -17,13 +17,22 @@ type PlayerFormProps = {
 const PlayerForm = ({ mode, player, onSuccess, showAll = false }: PlayerFormProps) => {
   const [name, setName] = useState(player?.name || '');
   const [score, setScore] = useState<number | null>(player?.score ?? 0);
+  const [email, setEmail] = useState('');
 
   const auth = useAuth();
   const API_URL = env.VITE_API_URL;
   const dispatch: AppDispatch = useDispatch();
 
+  const isEmailValid = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
   const isFormInvalid =
-    name.trim().length === 0 || name.length > 50 || score === null || isNaN(score) || score < 0;
+    name.trim().length === 0 ||
+    name.length > 50 ||
+    score === null ||
+    isNaN(score) ||
+    score < 0 ||
+    (mode === 'add' && !isEmailValid(email));
 
   const handleSubmit = async () => {
     const endpoint =
@@ -33,13 +42,17 @@ const PlayerForm = ({ mode, player, onSuccess, showAll = false }: PlayerFormProp
 
     const method = mode === 'add' ? 'POST' : 'PUT';
 
+    const body = mode === 'add'
+      ? JSON.stringify({ name, score, email })
+      : JSON.stringify({ name, score });
+
     const res = await fetch(endpoint, {
       method,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${auth.user?.access_token}`,
       },
-      body: JSON.stringify({ name, score }),
+      body,
     });
 
     if (res.ok) {
@@ -78,6 +91,14 @@ const PlayerForm = ({ mode, player, onSuccess, showAll = false }: PlayerFormProp
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
+      {mode === 'add' && (
+        <Form.Control
+          placeholder="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      )}
       <Form.Control
         placeholder="Score"
         type="number"

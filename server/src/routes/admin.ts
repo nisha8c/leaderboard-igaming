@@ -2,8 +2,14 @@ import express from "express";
 import { verifyJwt } from "../middleware/verifyJwt";
 import Player from "../models/Player";
 import { checkAdminAndParseBody } from '../middleware/checkAdminAndParseBody';
+import AWS from "aws-sdk";
 
 const router = express.Router();
+// AWS Cognito Setup
+const cognito = new AWS.CognitoIdentityServiceProvider({
+  region: process.env.AWS_REGION,
+});
+const USER_POOL_ID = process.env.COGNITO_USER_POOL_ID!;
 
 function validateNameAndScore(name: any, score: any) {
   if (typeof name !== 'string' || name.trim().length === 0 || name.length > 50) {
@@ -19,6 +25,7 @@ router.get("/", (_req, res) => {
   res.send("Admin API is up!");
 });
 
+/*
 router.post("/add-player", verifyJwt, checkAdminAndParseBody, async (req, res) => {
   const { name, score } = req.body;
 
@@ -30,6 +37,41 @@ router.post("/add-player", verifyJwt, checkAdminAndParseBody, async (req, res) =
   const player = await new Player({ name, score }).save();
   return res.status(201).json({ message: "Player added!", player });
 
+});*/
+
+router.post("/add-player", verifyJwt, checkAdminAndParseBody, async (req, res) => {
+  const { name, score, email } = req.body;
+
+  const validationError = validateNameAndScore(name, score);
+  if (validationError) {
+    return res.status(400).json({ message: validationError });
+  }
+
+  if (!email || typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ message: "A valid email is required." });
+  }
+
+  // ✅ Create Cognito user with given email
+  try {
+    await cognito
+      .adminCreateUser({
+        UserPoolId: USER_POOL_ID,
+        Username: email,
+        UserAttributes: [
+          { Name: "email", Value: email },
+          { Name: "email_verified", Value: "true" },
+        ],
+        TemporaryPassword: "TempPass123!",
+        MessageAction: "SUPPRESS",
+      })
+      .promise();
+  } catch (err) {
+    console.error("❌ Cognito creation error:", err);
+    return res.status(500).json({ message: "Failed to create Cognito user." });
+  }
+
+  const player = await new Player({ name, score }).save();
+  return res.status(201).json({ message: "Player added!", player });
 });
 
 router.put("/update-score/:id", verifyJwt, checkAdminAndParseBody, async (req, res) => {
