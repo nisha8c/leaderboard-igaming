@@ -7,9 +7,8 @@ import AWS from "aws-sdk";
 const router = express.Router();
 // AWS Cognito Setup
 const cognito = new AWS.CognitoIdentityServiceProvider({
-  region: process.env.AWS_REGION,
+  region: "eu-north-1",
 });
-const USER_POOL_ID = process.env.COGNITO_USER_POOL_ID!;
 
 function validateNameAndScore(name: any, score: any) {
   if (typeof name !== 'string' || name.trim().length === 0 || name.length > 50) {
