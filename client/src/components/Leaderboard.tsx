@@ -42,6 +42,10 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
 
   if (loading) return <Spinner animation="border" />;
   if (error) return <p>Error: {error}</p>;
+  if (!Array.isArray(players)) {
+    console.error("❌ Redux 'players' is not an array:", players);
+    return <p>Error loading players</p>;
+  }
 
   console.log("📥 Players from Redux:", players);
 
