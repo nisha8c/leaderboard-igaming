@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { Player } from '../../types/types.ts';
+import { env } from '../../utils/env.ts';
 
 type State = {
   players: Player[];
@@ -7,7 +8,7 @@ type State = {
   error: string | null;
 };
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = env.VITE_API_URL;
 
 const initialState: State = {
   players: [],

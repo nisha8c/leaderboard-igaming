@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '../redux/store.ts';
 import { fetchPlayers } from '../redux/slices/playerSlice.ts';
 import type { Player } from '../types/types.ts';
+import { env } from '../utils/env.ts';
 
 type PlayerFormProps = {
   mode: 'add' | 'edit';
@@ -18,7 +19,7 @@ const PlayerForm = ({ mode, player, onSuccess, showAll = false }: PlayerFormProp
   const [score, setScore] = useState<number | null>(player?.score ?? 0);
 
   const auth = useAuth();
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = env.VITE_API_URL;
   const dispatch: AppDispatch = useDispatch();
 
   const isFormInvalid =
