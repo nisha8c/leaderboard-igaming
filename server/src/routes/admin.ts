@@ -55,7 +55,7 @@ router.post("/add-player", verifyJwt, checkAdminAndParseBody, async (req, res) =
   try {
     await cognito
       .adminCreateUser({
-        UserPoolId: USER_POOL_ID,
+        UserPoolId: process.env.USER_POOL_ID!,
         Username: email,
         UserAttributes: [
           { Name: "email", Value: email },
