@@ -69,7 +69,7 @@ router.post("/add-player", verifyJwt, checkAdminAndParseBody, async (req, res) =
     return res.status(500).json({ message: "Failed to create Cognito user." });
   }
 
-  const player = await new Player({ name, score }).save();
+  const player = await new Player({ name, score, email }).save();
   return res.status(201).json({ message: "Player added!", player });
 });
 
