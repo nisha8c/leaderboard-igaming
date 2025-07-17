@@ -96,7 +96,7 @@ const playerSlice = createSlice({
           state.players = action.payload.players;
           state.total = action.payload.total;
         }
-      });
+      })
       .addCase(fetchPlayers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to fetch players';
