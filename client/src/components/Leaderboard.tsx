@@ -27,7 +27,7 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
     console.log("📤 Fetching with:", { search, sortBy, sortOrder, page });
     dispatch(
       fetchPlayers({
-        all: isAdmin && showAll,
+        all: isAdmin && showAll ? true : undefined,
         token: auth.user?.access_token,
         search,
         sortBy,
