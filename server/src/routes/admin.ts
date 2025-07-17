@@ -61,7 +61,7 @@ router.post("/add-player", verifyJwt, checkAdminAndParseBody, async (req, res) =
           { Name: "email_verified", Value: "true" },
         ],
         TemporaryPassword: "TempPass123!",
-        MessageAction: "SUPPRESS",
+        //MessageAction: "SUPPRESS",
       })
       .promise();
   } catch (err) {
