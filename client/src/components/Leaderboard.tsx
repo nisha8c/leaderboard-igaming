@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchPlayers } from '../redux/slices/playerSlice.ts';
 import type { Player } from '../types/types.ts';
 import { useAuth } from 'react-oidc-context';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 type LeaderboardProps = {
   isAdmin: boolean;
@@ -26,16 +26,16 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
   if (error) return <p>Error: {error}</p>;
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.95 },
+    hidden: { opacity: 0, y: 20, scale: 0.95 },
     visible: { opacity: 1, y: 0, scale: 1 },
-    hover: { scale: 1.03 },
+    hover: { scale: 1.02 },
   };
 
   const listVariants = {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.08,
+        staggerChildren: 0.1,
       },
     },
   };
@@ -49,15 +49,15 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
         </Badge>
       )}
 
-      <AnimatePresence>
-        <motion.div
-          variants={listVariants}
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
-        >
+      <motion.ul
+        className="list-unstyled"
+        variants={listVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <ListGroup>
           {players.map((player) => (
-            <motion.div
+            <motion.li
               key={player._id}
               variants={itemVariants}
               whileHover="hover"
@@ -72,10 +72,10 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
                 <br />
                 <small>Last updated: {new Date(player.lastUpdated ?? '').toLocaleString()}</small>
               </ListGroup.Item>
-            </motion.div>
+            </motion.li>
           ))}
-        </motion.div>
-      </AnimatePresence>
+        </ListGroup>
+      </motion.ul>
     </Container>
   );
 };
