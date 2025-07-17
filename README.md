@@ -1,6 +1,101 @@
 # Leaderboard iGaming
+
+# 🕹️ iGaming Leaderboard App
+
+A full-stack leaderboard application for managing and viewing game player scores. Built with React, Redux, Node.js, Express, MongoDB, and AWS Lambda.
+
+---
+
+## 🚀 Live Demo
+🌐 **Frontend Live URL:** https://d2lcr47a2gxn8u.cloudfront.net
+
 ## Monorepo Structure
 - client/: React + Vite + TypeScript + ESLint + Prettier
 - server/: Express + TypeScript + Nodemon + ESLint + Prettier
 
-🌐 **Frontend Live URL:** https://d2lcr47a2gxn8u.cloudfront.net
+## 🛠️ Tech Stack
+
+### Frontend
+- **React + TypeScript**
+- **Redux Toolkit** for state management
+- **react-oidc-context** for Cognito authentication
+- **React-Bootstrap** for UI
+- **Vite** for fast builds
+
+### Backend
+- **Node.js + Express**
+- **MongoDB** (via Mongoose)
+- **JWT Auth** (AWS Cognito + `jwks-rsa`)
+- **Serverless Framework** (deployed on AWS Lambda)
+
+### Deployment
+- **Backend:** AWS Lambda (Serverless Framework)
+- **Frontend:** S3 + CloudFront (SPA hosting)
+- **Logs:** AWS CloudWatch
+
+----
+
+## 💡 Features
+
+### ✅ Public Leaderboard
+- View top 10 players (sorted by score)
+- Display name, score, and last updated time
+
+### ✅ Admin Dashboard (Auth Protected)
+- Add new players
+- Edit/update scores
+- Delete players
+- Basic form validation
+
+## 🔐 Authentication
+
+- Uses **AWS Cognito** for secure login
+- Admin roles identified via Cognito groups
+- API access protected via JWT verification
+
+
+---
+## 📦 API Endpoints
+
+| Method | Endpoint                        | Description                |
+|--------|----------------------------------|----------------------------|
+| GET    | `/api/leaderboard`              | Public leaderboard         |
+| POST   | `/api/admin/add-player`         | Add new player (admin)     |
+| PUT    | `/api/admin/update-score/:id`   | Update score (admin)       |
+| DELETE | `/api/admin/delete-player/:id`  | Delete player (admin)      |
+
+---
+
+## 🧪 Testing (Optional)
+
+> Backend tests added and work properly
+> Frontend tests are commented.
+
+---
+
+## 🔧 Setup Instructions
+
+### Prerequisites
+
+- Node.js v20+
+- MongoDB Atlas or local instance
+- AWS account (for Cognito and Lambda)
+
+---
+### Local Development
+
+1. **Clone repo**
+2. Set environment variables. Currently, all the variables are set in Github - Actions - Secrets
+3. Start Development
+4. Frontend: cd frontend && npm install && npm run dev 
+5. Backend: cd backend && npm install && npm run dev
+6. Deploy : Backend : serverless deploy
+7. frontend Upload to S3 and connect to CloudFront
+
+---
+### Known limitations
+1. No email / password auth - (replies solely on Cognito login)
+2. When admin adds players they are not getting added to the Cognito users. Players added in your dashboard (via /api/admin/add-player) are stored in your MongoDB database, specifically in the Player model. For them to appear in Amazon Cognito's User Pool, I would have to explicitly create Cognito users using AWS SDK or admin APIs
+3. Search, Filter, Sort, Pagination is not present when admin sees all the players.
+
+
