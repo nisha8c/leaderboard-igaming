@@ -15,7 +15,7 @@ function validateNameAndScore(name: any, score: any) {
   return null;
 }
 
-router.get("/", (req, res) => {
+router.get("/", (_req, res) => {
   res.send("Admin API is up!");
 });
 
@@ -27,10 +27,9 @@ router.post("/add-player", verifyJwt, checkAdminAndParseBody, async (req, res) =
     return res.status(400).json({ message: validationError });
   }
 
-  const player = new Player({ name, score });
-  await player.save();
-
+  const player = await new Player({ name, score }).save();
   return res.status(201).json({ message: "Player added!", player });
+
 });
 
 router.put("/update-score/:id", verifyJwt, checkAdminAndParseBody, async (req, res) => {
