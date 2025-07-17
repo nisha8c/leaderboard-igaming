@@ -13,8 +13,25 @@ app.get("/", (_req, res) => {
 });
 
 app.get("/api/leaderboard", verifyJwt, async (req, res) => {
-  const { all } = req.query;
-  let query = Player.find().sort({ score: -1 });
+  const { all, search, minScore, maxScore, sort, order, page = 1, limit = 10 } = req.query;
+  let query = Player.find();
+
+// → Search
+  if (search) query = query.where('name', new RegExp(search as string, 'i'));
+
+// → Filter score
+  if (minScore) query = query.where('score').gte(Number(minScore));
+  if (maxScore) query = query.where('score').lte(Number(maxScore));
+
+// → Sort
+  const sortField = (sort && ['name', 'score'].includes(sort as string) ? sort : 'score') as string;
+  const sortOrder = order === 'asc' ? 1 : -1;
+  query = query.sort({ [sortField]: sortOrder });
+
+// → Pagination
+  const lim = Math.min(Number(limit), 100);
+  const skip = (Number(page) - 1) * lim;
+  query = query.skip(skip).limit(lim);
 
   const isAdmin = req.user?.['cognito:groups']?.includes('admin');
   if (!isAdmin || all !== 'true') {
@@ -22,7 +39,8 @@ app.get("/api/leaderboard", verifyJwt, async (req, res) => {
   }
 
   const players = await query.exec();
-  res.json(players);
+  const total = await Player.countDocuments(query.getFilter());
+  res.json({ players, total });
 });
 
 app.use("/api/admin", adminRoutes);
