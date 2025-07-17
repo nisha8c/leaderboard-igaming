@@ -102,6 +102,7 @@ router.put("/update-score/:id", verifyJwt, checkAdminAndParseBody, async (req, r
   return res.status(200).json({ message: "Player updated!", updated });
 });
 
+/*
 router.delete("/delete-player/:id", verifyJwt, async (req, res) => {
   if (!req.user["cognito:groups"]?.includes("admin")) {
     return res.status(403).json({ message: "Admins only" });
@@ -114,6 +115,37 @@ router.delete("/delete-player/:id", verifyJwt, async (req, res) => {
   }
 
   return res.status(200).json({ message: "Player deleted!", player: deleted });
+});*/
+
+router.delete("/delete-player/:id", verifyJwt, async (req, res) => {
+  if (!req.user["cognito:groups"]?.includes("admin")) {
+    return res.status(403).json({ message: "Admins only" });
+  }
+
+  // Fetch player to get email before deleting
+  const player = await Player.findById(req.params.id);
+  if (!player) {
+    return res.status(404).json({ message: "Player not found." });
+  }
+
+  try {
+    // 👇 Delete user from Cognito (username = email)
+    if (player.email) {
+      await cognito.adminDeleteUser({
+        UserPoolId: process.env.USER_POOL_ID!,
+        Username: player.email,
+      }).promise();
+    }
+  } catch (err) {
+    console.error("❌ Failed to delete Cognito user:", err);
+    // Optionally continue with MongoDB deletion even if Cognito fails
+  }
+
+  // 👇 Delete from MongoDB
+  await Player.findByIdAndDelete(req.params.id);
+
+  return res.status(200).json({ message: "Player deleted!", player });
 });
+
 
 export default router;
