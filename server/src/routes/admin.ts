@@ -50,6 +50,27 @@ router.post("/add-player", verifyJwt, checkAdminAndParseBody, async (req, res) =
     return res.status(400).json({ message: "A valid email is required." });
   }
 
+  // 💾 Check if player with this email already exists in MongoDB
+  const existingPlayer = await Player.findOne({ email });
+  if (existingPlayer) {
+    return res.status(409).json({ message: "Player with this email already exists." });
+  }
+
+  // 🔐 Check if user already exists in Cognito
+  try {
+    await cognito.adminGetUser({
+      UserPoolId: process.env.USER_POOL_ID!,
+      Username: email,
+    }).promise();
+
+    return res.status(409).json({ message: "Cognito user with this email already exists." });
+  } catch (err: any) {
+    if (err.code !== "UserNotFoundException") {
+      console.error("❌ Cognito lookup error:", err);
+      return res.status(500).json({ message: "Failed to validate email with Cognito." });
+    }
+  }
+
   // ✅ Create Cognito user with given email
   try {
     await cognito
