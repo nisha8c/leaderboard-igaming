@@ -90,11 +90,16 @@ A full-stack leaderboard application for managing and viewing game player scores
 4. Frontend: cd frontend && npm install && npm run dev 
 5. Backend: cd backend && npm install && npm run dev
 6. Deploy : Backend : serverless deploy
-7. frontend Upload to S3 and connect to CloudFront
+7. Frontend:  Upload to S3 and connect to CloudFront
+8. For backend .env file you can add:
+   MONGODB_URI=Your Mpngo DB URI
+   USER_POOL_ID=eu-north-1_H2BNDOr7R
+   USER_POOL_DOMAIN=https://eu-north-1h2bndor7r.auth.eu-north-1.amazoncognito.com
+   VITE_API_URL=http://localhost:3000/dev
 
 ---
 ### Known limitations
-1. No email / password auth - (replies solely on Cognito login)
+1. No email / password auth - (relies solely on Cognito login)
 2. When admin adds players they are not getting added to the Cognito users. Players added in your dashboard (via /api/admin/add-player) are stored in your MongoDB database, specifically in the Player model. For them to appear in Amazon Cognito's User Pool, I would have to explicitly create Cognito users using AWS SDK or admin APIs
 3. Search, Filter, Sort, Pagination is not present when admin sees all the players.
 
