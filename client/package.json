@@ -15,6 +15,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@types/testing-library__jest-dom": "^5.14.9",
     "bootstrap": "^5.3.7",
+    "framer-motion": "^12.23.6",
     "oidc-client-ts": "^3.3.0",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.10",
