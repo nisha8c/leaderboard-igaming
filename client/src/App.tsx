@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import type { Player } from './types/types.ts';
 import { env } from './utils/env.ts';
+import { motion } from 'framer-motion';
 
 
 function App() {
@@ -44,55 +45,65 @@ function App() {
 
   if (auth.isAuthenticated) {
     return (
-      <Container className="mt-4 d-flex flex-column align-items-center text-center">
-        <h1>Welcome, {auth.user?.profile.email}</h1>
-        <Button variant="outline-secondary" size="sm" onClick={signOutRedirect}>
-          Sign out
-        </Button>
-
-        { isAdmin && (
-          <Button
-            variant="outline-info"
-            className="mt-2"
-            onClick={() => setShowAll((prev) => !prev)}
-          >
-            {showAll ? 'Show Top 10' : 'Show All Players'}
+      <>
+        {/* Sticky Animated Header */}
+        <motion.header
+          className="app-header d-flex justify-content-between align-items-center px-4 py-2 shadow-sm"
+          initial={{ y: -30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h5 className="m-0">Welcome, {auth.user?.profile.email}</h5>
+          <Button variant="outline-secondary" size="sm" onClick={signOutRedirect}>
+            Sign out
           </Button>
-        )}
+        </motion.header>
 
-        {isAdmin && (
-          <>
+        <Container className="mt-4 d-flex flex-column align-items-center text-center">
+          { isAdmin && (
             <Button
-              variant="primary"
-              className="mt-3"
-              onClick={handleOpenAdd}
+              variant="outline-info"
+              className="mt-2"
+              onClick={() => setShowAll((prev) => !prev)}
             >
-              ➕ Add Player
+              {showAll ? 'Show Top 10' : 'Show All Players'}
             </Button>
+          )}
 
-            <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} centered>
-              <Modal.Header closeButton>
-                <Modal.Title>{editPlayer ? 'Edit Player' : 'Add Player'}</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <PlayerForm
-                  mode={editPlayer ? 'edit' : 'add'}
-                  player={editPlayer || undefined}
-                  onSuccess={() => setIsModalOpen(false)}
-                  showAll={showAll}
-                />
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
-                  Close
-                </Button>
-              </Modal.Footer>
-            </Modal>
-          </>
-        )}
+          {isAdmin && (
+            <>
+              <Button
+                variant="primary"
+                className="mt-3"
+                onClick={handleOpenAdd}
+              >
+                ➕ Add Player
+              </Button>
 
-        <Leaderboard isAdmin={isAdmin} onEditPlayer={handleEditPlayer} showAll={showAll} />
-      </Container>
+              <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} centered>
+                <Modal.Header closeButton>
+                  <Modal.Title>{editPlayer ? 'Edit Player' : 'Add Player'}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <PlayerForm
+                    mode={editPlayer ? 'edit' : 'add'}
+                    player={editPlayer || undefined}
+                    onSuccess={() => setIsModalOpen(false)}
+                    showAll={showAll}
+                  />
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
+                    Close
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </>
+          )}
+
+          <Leaderboard isAdmin={isAdmin} onEditPlayer={handleEditPlayer} showAll={showAll} />
+        </Container>
+      </>
     );
   }
 

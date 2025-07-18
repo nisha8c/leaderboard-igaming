@@ -35,3 +35,12 @@ body::before {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
+
+.app-header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1050;
+  border-bottom: 1px solid #dee2e6;
+}
