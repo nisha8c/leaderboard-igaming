@@ -3,5 +3,4 @@ export type Player = {
   name: string;
   score: number;
   lastUpdated?: string;
-  isAdmin?: boolean;
 };

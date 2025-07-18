@@ -89,7 +89,7 @@ router.post("/add-player", verifyJwt, checkAdminAndParseBody, async (req, res) =
 });
 
 router.put("/update-score/:id", verifyJwt, checkAdminAndParseBody, async (req, res) => {
-  const { name, score, isAdmin } = req.body;
+  const { name, score } = req.body;
 
   const player = await Player.findById(req.params.id);
   if (!player) return res.status(404).json({ message: "Player not found." });
@@ -100,35 +100,6 @@ router.put("/update-score/:id", verifyJwt, checkAdminAndParseBody, async (req, r
   }
   if (score !== undefined && (typeof score !== 'number' || isNaN(score) || score < 0)) {
     return res.status(400).json({ message: "Score must be a non-negative number." });
-  }
-
-  // Handle group assignment if email exists
-  if (typeof isAdmin === 'boolean' && player.email) {
-    try {
-      const groups = await cognito.adminListGroupsForUser({
-        UserPoolId: process.env.USER_POOL_ID!,
-        Username: player.email,
-      }).promise();
-
-      const inAdmin = groups.Groups?.some((g) => g.GroupName === 'admin');
-
-      if (isAdmin && !inAdmin) {
-        await cognito.adminAddUserToGroup({
-          UserPoolId: process.env.USER_POOL_ID!,
-          Username: player.email,
-          GroupName: 'admin',
-        }).promise();
-      } else if (!isAdmin && inAdmin) {
-        await cognito.adminRemoveUserFromGroup({
-          UserPoolId: process.env.USER_POOL_ID!,
-          Username: player.email,
-          GroupName: 'admin',
-        }).promise();
-      }
-    } catch (err) {
-      console.error("❌ Cognito group update error:", err);
-      return res.status(500).json({ message: "Failed to update admin group." });
-    }
   }
 
   const updated = await Player.findByIdAndUpdate(
