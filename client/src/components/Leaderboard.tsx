@@ -55,7 +55,7 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
         initial="hidden"
         animate="visible"
       >
-        <ListGroup>
+        <ListGroup className={'bg-transparent text-primary border rounded'}>
           {players.map((player) => (
             <motion.li
               key={player._id}
@@ -67,12 +67,6 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
                 action={isAdmin}
                 onClick={() => isAdmin && onEditPlayer?.(player)}
                 className="mb-2"
-                style={{
-                  backgroundColor: 'rgba(0,0,0,0.4)', // transparent dark background
-                  color: 'white',                    // white text
-                  borderColor: '#0dcaf0',           // light blue border (Bootstrap info)
-                  backdropFilter: 'blur(5px)',      // optional blur
-                }}
               >
                 <strong>{player.name}</strong> — {player.score} pts
                 <br />
