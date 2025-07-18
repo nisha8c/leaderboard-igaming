@@ -57,39 +57,50 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
         style={{ maxHeight: '400px', overflowY: 'auto', padding: '32px' } as CSSProperties}
       >
         <ListGroup>
-          {players.map((player) => (
-            <motion.li
-              key={player._id}
-              variants={itemVariants}
-              whileHover="hover"
-              layout
-            >
-              <motion.div
+          {players.map((player, index) => {
+            const getIcon = () => {
+              if (index === 0) return '💎'; // Diamond for 1st
+              if (index === 1) return '🥇'; // Gold for 2nd
+              if (index === 2) return '🥈'; // Silver for 3rd
+              return '🎮'; // Default for others
+            };
+
+            return (
+              <motion.li
                 key={player._id}
                 variants={itemVariants}
-                whileHover={{
-                  scale: 1.03,
-                  color: '#0dcaf0', // Bootstrap "info" blue
-                }}
-                transition={{ type: 'spring', stiffness: 300 }}
+                whileHover="hover"
                 layout
               >
-                <ListGroup.Item
-                  action={isAdmin}
-                  onClick={() => isAdmin && onEditPlayer?.(player)}
-                  className="mb-2 border rounded bg-transparent text-white"
-                  style={{ cursor: isAdmin ? 'pointer' : 'default' }}
+                <motion.div
+                  key={player._id}
+                  variants={itemVariants}
+                  whileHover={{
+                    scale: 1.03,
+                    color: '#0dcaf0',
+                  }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                  layout
                 >
-                  <strong>{player.name}</strong> — {player.score} pts
-                  <br />
-                  <small>
-                    Last updated: {new Date(player.lastUpdated ?? '').toLocaleString()}
-                  </small>
-                </ListGroup.Item>
-              </motion.div>
-
-            </motion.li>
-          ))}
+                  <ListGroup.Item
+                    action={isAdmin}
+                    onClick={() => isAdmin && onEditPlayer?.(player)}
+                    className="mb-2 border rounded bg-transparent text-white d-flex align-items-start gap-3"
+                    style={{ cursor: isAdmin ? 'pointer' : 'default' }}
+                  >
+                    <span style={{ fontSize: '1.5rem' }}>{getIcon()}</span>
+                    <div>
+                      <strong>{player.name}</strong> — {player.score} pts
+                      <br />
+                      <small>
+                        Last updated: {new Date(player.lastUpdated ?? '').toLocaleString()}
+                      </small>
+                    </div>
+                  </ListGroup.Item>
+                </motion.div>
+              </motion.li>
+            );
+          })}
         </ListGroup>
       </motion.ul>
     </Container>
