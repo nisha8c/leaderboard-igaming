@@ -91,7 +91,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-eu-north-1-104469aa-ff48",
-          "S3Key": "serverless/leaderboard-backend/dev/1752838296891-2025-07-18T11:31:36.891Z/leaderboard-backend.zip"
+          "S3Key": "serverless/leaderboard-backend/dev/1752838604106-2025-07-18T11:36:44.106Z/leaderboard-backend.zip"
         },
         "Handler": "src/index.handler",
         "Runtime": "nodejs20.x",
@@ -118,14 +118,14 @@
         "ApiLogGroup"
       ]
     },
-    "ApiLambdaVersion9HLmVXA5mAJmuZG3R9l9YKGSRtAmGF0ivl9lhDQw0H4": {
+    "ApiLambdaVersiondp6dO2Qt6CCknhF8S4DKySDyvxY9BMIGRA74FTM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ApiLambdaFunction"
         },
-        "CodeSha256": "3v9UGM2Km+/HaLgnRP52KydsH91i8mtluw3klMr8Xcs="
+        "CodeSha256": "ucV7LQ9RIp6LJRT2F7a9/7x5nJQLwS9P7liSLYf6Mac="
       }
     },
     "ApiGatewayRestApi": {
@@ -262,7 +262,7 @@
         "ApiLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1752838265302": {
+    "ApiGatewayDeployment1752838596066": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -323,7 +323,7 @@
     "ApiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersion9HLmVXA5mAJmuZG3R9l9YKGSRtAmGF0ivl9lhDQw0H4"
+        "Ref": "ApiLambdaVersiondp6dO2Qt6CCknhF8S4DKySDyvxY9BMIGRA74FTM"
       },
       "Export": {
         "Name": "sls-leaderboard-backend-dev-ApiLambdaFunctionQualifiedArn"
