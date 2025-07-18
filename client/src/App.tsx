@@ -45,7 +45,7 @@ function App() {
   if (auth.isAuthenticated) {
     return (
       <>
-        <Stack direction="horizontal" gap={3}>
+        <Stack className={'w-100'} direction="horizontal" gap={3}>
           <h1>Welcome, {auth.user?.profile.email}</h1>
           <div className="p-2 ms-auto">
             <Button variant="outline-secondary" size="sm" onClick={signOutRedirect}>
