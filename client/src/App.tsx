@@ -1,5 +1,5 @@
 import { useAuth } from 'react-oidc-context';
-import { Leaderboard, NavbarComponent, PlayerForm } from './components';
+import { FloatingIcons, Leaderboard, NavbarComponent, PlayerForm } from './components';
 import { useState } from 'react';
 import { Button, Container, Modal, Stack } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -46,6 +46,7 @@ function App() {
     const email = auth.user?.profile.email ?? 'Unknown';
     return (
       <>
+        <FloatingIcons />
         <NavbarComponent userEmail={email} onSignOut={signOutRedirect} />
         <Container className="mt-4 d-flex flex-column align-items-center text-center">
           <Stack direction="horizontal" gap={2}>
