@@ -59,10 +59,10 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
         <ListGroup>
           {players.map((player, index) => {
             const getIcon = () => {
-              if (index === 0) return '💎'; // Diamond for 1st
-              if (index === 1) return '🥇'; // Gold for 2nd
-              if (index === 2) return '🥈'; // Silver for 3rd
-              return '🎮'; // Default for others
+              if (index === 0) return '💎';
+              if (index === 1) return '🥇';
+              if (index === 2) return '🥈';
+              return '🎮';
             };
 
             return (
@@ -85,7 +85,7 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
                   <ListGroup.Item
                     action={isAdmin}
                     onClick={() => isAdmin && onEditPlayer?.(player)}
-                    className="mb-2 border rounded bg-transparent text-white d-flex align-items-start gap-3"
+                    className="mb-2 border rounded bg-transparent text-white d-flex align-items-center gap-3"
                     style={{ cursor: isAdmin ? 'pointer' : 'default' }}
                   >
                     <span style={{ fontSize: '1.5rem' }}>{getIcon()}</span>
