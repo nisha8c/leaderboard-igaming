@@ -45,7 +45,7 @@ function App() {
 
   if (auth.isAuthenticated) {
     return (
-      <>
+      <Container className="my-4">
         {/* Sticky Animated Header */}
         <motion.header
           className="app-header"
@@ -105,7 +105,7 @@ function App() {
 
           <Leaderboard isAdmin={isAdmin} onEditPlayer={handleEditPlayer} showAll={showAll} />
         </Container>
-      </>
+      </Container>
     );
   }
 
