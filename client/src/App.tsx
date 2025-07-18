@@ -48,19 +48,21 @@ function App() {
       <>
         {/* Sticky Animated Header */}
         <motion.header
-          className="app-header d-flex justify-content-between align-items-center px-4 py-2 shadow-sm"
+          className="app-header"
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <h5 className="m-0">Welcome, {auth.user?.profile.email}</h5>
-          <Button variant="outline-secondary" size="sm" onClick={signOutRedirect}>
-            Sign out
-          </Button>
+          <div className="container-fluid d-flex justify-content-between align-items-center px-4 py-2">
+            <h5 className="m-0">Welcome, {auth.user?.profile.email}</h5>
+            <Button variant="outline-secondary" size="sm" onClick={signOutRedirect}>
+              Sign out
+            </Button>
+          </div>
         </motion.header>
 
         <Container className="mt-4 d-flex flex-column align-items-center text-center">
-          { isAdmin && (
+          {isAdmin && (
             <Button
               variant="outline-info"
               className="mt-2"

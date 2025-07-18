@@ -40,7 +40,9 @@ body::before {
 .app-header {
   position: sticky;
   top: 0;
-  background-color: white;
+  width: 100%;
+  background-color: #f8f9fa;
   z-index: 1050;
   border-bottom: 1px solid #dee2e6;
 }
+
