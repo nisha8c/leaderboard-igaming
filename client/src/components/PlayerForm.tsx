@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Form, FormCheck, Stack } from 'react-bootstrap';
 import { useAuth } from 'react-oidc-context';
 import { useDispatch } from 'react-redux';
@@ -18,11 +18,20 @@ const PlayerForm = ({ mode, player, onSuccess, showAll = false }: PlayerFormProp
   const [name, setName] = useState(player?.name || '');
   const [score, setScore] = useState<number | null>(player?.score ?? 0);
   const [email, setEmail] = useState('');
-  const [isAdmin, setIsAdmin] = useState(player?.isAdmin ?? false);
+  //const [isAdmin, setIsAdmin] = useState(player?.isAdmin ?? false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
 
   const auth = useAuth();
   const API_URL = env.VITE_API_URL;
   const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    if (mode === 'edit' && player) {
+      setIsAdmin(player.isAdmin ?? false);
+    }
+  }, [mode, player]);
+
 
   const isEmailValid = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
