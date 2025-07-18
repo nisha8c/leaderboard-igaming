@@ -43,9 +43,10 @@ function App() {
   if (auth.error) return <p>Error: {auth.error.message}</p>;
 
   if (auth.isAuthenticated) {
+    const email = auth.user?.profile.email ?? 'Unknown';
     return (
       <>
-        <NavbarComponent userEmail={auth.user?.profile.email!} onSignOut={signOutRedirect} />
+        <NavbarComponent userEmail={email} onSignOut={signOutRedirect} />
         <Container className="mt-4 d-flex flex-column align-items-center text-center">
           <Stack direction="horizontal" gap={2}>
             <div className="p-2">
