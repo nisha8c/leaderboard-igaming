@@ -67,7 +67,6 @@ function App() {
               >
                 ➕ Add Player
               </Button>
-
               <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} centered>
                 <Modal.Header closeButton>
                   <Modal.Title>{editPlayer ? 'Edit Player' : 'Add Player'}</Modal.Title>
