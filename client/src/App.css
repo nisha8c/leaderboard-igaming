@@ -36,6 +36,15 @@ body::before {
   100% { background-position: 0% 50%; }
 }
 
+.slot-background {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  background: url('https://media.giphy.com/media/fAnEC88LccN7a/giphy.gif') center center / cover no-repeat;
+  opacity: 0.2;
+  filter: blur(2px);
+  pointer-events: none;
+}
 
 
 

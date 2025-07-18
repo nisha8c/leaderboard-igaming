@@ -41,7 +41,7 @@ const FloatingIcons = () => {
             left: item.left,
             right: item.right,
             fontSize: '2rem',
-            zIndex: 0,
+            zIndex: 2,
             pointerEvents: 'none',
           }}
           initial={{ y: 0, opacity: 0 }}

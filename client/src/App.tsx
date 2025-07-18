@@ -100,9 +100,15 @@ function App() {
   }
 
   return (
-    <Container className="mt-5 d-flex flex-column align-items-center text-center">
-      <Button onClick={() => auth.signinRedirect()}>Sign in</Button>
-    </Container>
+    <>
+      <div className="slot-background" />
+      <Container className="mt-5 d-flex flex-column align-items-center justify-content-center text-center" style={{ height: '100vh', zIndex: 1 }}>
+        <h2 className="mb-4 text-white">🎰 Welcome to iGaming Arena 🎰</h2>
+        <Button variant="warning" size="lg" onClick={() => auth.signinRedirect()}>
+          🎮 Sign In to Play
+        </Button>
+      </Container>
+    </>
   );
 }
 
