@@ -24,22 +24,8 @@ router.get("/", (_req, res) => {
   res.send("Admin API is up!");
 });
 
-/*
 router.post("/add-player", verifyJwt, checkAdminAndParseBody, async (req, res) => {
-  const { name, score } = req.body;
-
-  const validationError = validateNameAndScore(name, score);
-  if (validationError) {
-    return res.status(400).json({ message: validationError });
-  }
-
-  const player = await new Player({ name, score }).save();
-  return res.status(201).json({ message: "Player added!", player });
-
-});*/
-
-router.post("/add-player", verifyJwt, checkAdminAndParseBody, async (req, res) => {
-  const { name, score, email } = req.body;
+  const { name, score, email, isAdmin } = req.body;
 
   const validationError = validateNameAndScore(name, score);
   if (validationError) {
@@ -83,8 +69,16 @@ router.post("/add-player", verifyJwt, checkAdminAndParseBody, async (req, res) =
         ],
         TemporaryPassword: "TempPass123!",
         //MessageAction: "SUPPRESS",
-      })
-      .promise();
+      }).promise();
+
+    if (isAdmin) {
+      await cognito.adminAddUserToGroup({
+        UserPoolId: process.env.USER_POOL_ID!,
+        Username: email,
+        GroupName: "admin",
+      }).promise();
+    }
+
   } catch (err) {
     console.error("❌ Cognito creation error:", err);
     return res.status(500).json({ message: "Failed to create Cognito user." });
@@ -123,21 +117,6 @@ router.put("/update-score/:id", verifyJwt, checkAdminAndParseBody, async (req, r
   return res.status(200).json({ message: "Player updated!", updated });
 });
 
-/*
-router.delete("/delete-player/:id", verifyJwt, async (req, res) => {
-  if (!req.user["cognito:groups"]?.includes("admin")) {
-    return res.status(403).json({ message: "Admins only" });
-  }
-
-  const deleted = await Player.findByIdAndDelete(req.params.id);
-
-  if (!deleted) {
-    return res.status(404).json({ message: "Player not found." });
-  }
-
-  return res.status(200).json({ message: "Player deleted!", player: deleted });
-});*/
-
 router.delete("/delete-player/:id", verifyJwt, async (req, res) => {
   if (!req.user["cognito:groups"]?.includes("admin")) {
     return res.status(403).json({ message: "Admins only" });
@@ -159,7 +138,6 @@ router.delete("/delete-player/:id", verifyJwt, async (req, res) => {
     }
   } catch (err) {
     console.error("❌ Failed to delete Cognito user:", err);
-    // Optionally continue with MongoDB deletion even if Cognito fails
   }
 
   // 👇 Delete from MongoDB

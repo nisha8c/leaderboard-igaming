@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Form, Stack } from 'react-bootstrap';
+import { Button, Form, FormCheck, Stack } from 'react-bootstrap';
 import { useAuth } from 'react-oidc-context';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '../redux/store.ts';
@@ -18,6 +18,7 @@ const PlayerForm = ({ mode, player, onSuccess, showAll = false }: PlayerFormProp
   const [name, setName] = useState(player?.name || '');
   const [score, setScore] = useState<number | null>(player?.score ?? 0);
   const [email, setEmail] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const auth = useAuth();
   const API_URL = env.VITE_API_URL;
@@ -43,7 +44,7 @@ const PlayerForm = ({ mode, player, onSuccess, showAll = false }: PlayerFormProp
     const method = mode === 'add' ? 'POST' : 'PUT';
 
     const body = mode === 'add'
-      ? JSON.stringify({ name, score, email })
+      ? JSON.stringify({ name, score, email, isAdmin })
       : JSON.stringify({ name, score });
 
     const res = await fetch(endpoint, {
@@ -107,6 +108,14 @@ const PlayerForm = ({ mode, player, onSuccess, showAll = false }: PlayerFormProp
         value={score ?? ''}
         onChange={(e) => setScore(e.target.value === '' ? null : Number(e.target.value))}
       />
+      {mode === 'add' && (
+        <FormCheck
+          type="checkbox"
+          label="Assign as Admin"
+          checked={isAdmin}
+          onChange={(e) => setIsAdmin(e.target.checked)}
+        />
+      )}
       <Button
         variant={mode === 'add' ? 'success' : 'primary'}
         disabled={isFormInvalid}
