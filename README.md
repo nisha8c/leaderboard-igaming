@@ -46,6 +46,7 @@ A full-stack leaderboard application for managing and viewing game player scores
 - Edit/update scores
 - Delete players
 - Basic form validation
+- Admin can add user - that gets saved in Cognito users as well as in Mongo DB. Admin can choose to assign the user to admin group at the time of creation and edit.
 
 ## 🔐 Authentication
 
@@ -100,7 +101,6 @@ A full-stack leaderboard application for managing and viewing game player scores
 ---
 ### Known limitations
 1. No email / password auth - (relies solely on Cognito login)
-2. When admin adds players they are not getting added to the Cognito users. Players added in your dashboard (via /api/admin/add-player) are stored in your MongoDB database, specifically in the Player model. For them to appear in Amazon Cognito's User Pool, I would have to explicitly create Cognito users using AWS SDK or admin APIs
 3. Search, Filter, Sort, Pagination is not present when admin sees all the players.
 
 

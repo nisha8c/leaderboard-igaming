@@ -5,6 +5,7 @@ export interface IPlayer extends Document {
   email: string;
   score: number;
   lastUpdated: Date;
+  isAdmin?: boolean;
 }
 
 const PlayerSchema = new Schema<IPlayer>({
@@ -12,6 +13,7 @@ const PlayerSchema = new Schema<IPlayer>({
   email: { type: String, required: true },
   score: { type: Number, required: true },
   lastUpdated: { type: Date, default: Date.now },
+  isAdmin: { type: Boolean, default: false },
 });
 
 export default model<IPlayer>("Player", PlayerSchema);
