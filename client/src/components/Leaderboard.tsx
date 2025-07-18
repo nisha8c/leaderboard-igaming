@@ -44,7 +44,7 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
     <Container className="mt-4">
       <h2>{isAdmin ? '🛠️ Admin Dashboard' : '🏆 Leaderboard'}</h2>
       {isAdmin && (
-        <Badge bg={showAll ? 'secondary' : 'info'} className="ms-2">
+        <Badge bg={showAll ? 'secondary' : 'info'} className="ms-2 mb-md-1">
           {showAll ? 'All Players' : 'Top 10'}
         </Badge>
       )}
@@ -54,7 +54,7 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
         variants={listVariants}
         initial="hidden"
         animate="visible"
-        style={{ maxHeight: '400px', overflowY: 'auto' } as CSSProperties}
+        style={{ maxHeight: '400px', overflowY: 'auto', margin: '10px' } as CSSProperties}
       >
         <ListGroup>
           {players.map((player) => (
