@@ -1,6 +1,6 @@
 import { useAuth } from 'react-oidc-context';
 import { Leaderboard, PlayerForm } from './components';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Col, Container, Modal, Navbar, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -45,7 +45,7 @@ function App() {
   if (auth.isAuthenticated) {
     return (
       <>
-        <Navbar className="bg-body-tertiary justify-content-between">
+        <Navbar sticky="top" className="bg-body-tertiary justify-content-between">
           <Navbar.Brand>
             iGaming Leaderboard
           </Navbar.Brand>
