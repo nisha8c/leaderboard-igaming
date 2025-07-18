@@ -14,7 +14,7 @@ const NavbarComponent = ({ userEmail, onSignOut }: Props) => {
     <Navbar sticky="top" expand="lg" className="bg-transparent px-3">
       <Container fluid>
         <Navbar.Brand className="text-white">
-          iGaming Leaderboard
+          <strong>iGaming Leaderboard</strong>
         </Navbar.Brand>
         <div className="ms-auto d-flex align-items-center gap-3">
           <span className="text-white fs-5 text-nowrap">
