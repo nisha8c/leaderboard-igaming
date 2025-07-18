@@ -1,6 +1,15 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
+type FloatingItem = {
+  id: string;
+  icon: string;
+  left?: string;
+  right?: string;
+  top: string;
+  duration: number;
+};
+
 const icons = ['🎲', '🃏', '🎰', '💰', '🪙', '♠️', '♦️', '♣️', '♥️'];
 
 const getRandomIcon = () => icons[Math.floor(Math.random() * icons.length)];
@@ -8,7 +17,7 @@ const getRandomPosition = () => `${Math.floor(Math.random() * 90)}%`;
 const getRandomDuration = () => Math.random() * 3 + 2;
 
 const FloatingIcons = () => {
-  const [floatingItems, setFloatingItems] = useState<any[]>([]);
+  const [floatingItems, setFloatingItems] = useState<FloatingItem[]>([]);
 
   useEffect(() => {
     const interval = setInterval(() => {
