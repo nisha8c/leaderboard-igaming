@@ -1,7 +1,7 @@
 import { useAuth } from 'react-oidc-context';
-import { Leaderboard, PlayerForm } from './components';
+import { Leaderboard, NavbarComponent, PlayerForm } from './components';
 import { useState } from 'react';
-import { Button, Col, Container, Modal, Navbar, Row } from 'react-bootstrap';
+import { Button, Container, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import type { Player } from './types/types.ts';
@@ -45,21 +45,7 @@ function App() {
   if (auth.isAuthenticated) {
     return (
       <>
-        <Navbar sticky="top" className="bg-transparent justify-content-between">
-          <Navbar.Brand className={'text-white'}>
-            iGaming Leaderboard
-          </Navbar.Brand>
-          <Row>
-            <Col className={'text-white'} xs="auto">
-              Welcome, {auth.user?.profile.email}
-            </Col>
-            <Col xs="auto">
-              <Button variant="outline-secondary" size="sm" onClick={signOutRedirect}>
-                Sign out
-              </Button>
-            </Col>
-          </Row>
-        </Navbar>
+        <NavbarComponent userEmail={auth.user?.profile.email!} onSignOut={signOutRedirect} />
 
         <Container className="mt-4 d-flex flex-column align-items-center text-center">
           { isAdmin && (
