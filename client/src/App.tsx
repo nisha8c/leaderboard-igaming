@@ -45,12 +45,12 @@ function App() {
   if (auth.isAuthenticated) {
     return (
       <>
-        <Navbar sticky="top" className="bg-body-tertiary justify-content-between">
-          <Navbar.Brand>
+        <Navbar sticky="top" className="bg-transparent justify-content-between">
+          <Navbar.Brand className={'text-white'}>
             iGaming Leaderboard
           </Navbar.Brand>
           <Row>
-            <Col xs="auto">
+            <Col className={'text-white'} xs="auto">
               Welcome, {auth.user?.profile.email}
             </Col>
             <Col xs="auto">
