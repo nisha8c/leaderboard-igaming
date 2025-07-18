@@ -13,16 +13,21 @@ app.get("/", (_req, res) => {
 });
 
 app.get("/api/leaderboard", verifyJwt, async (req, res) => {
-  const { all } = req.query;
-  let query = Player.find().sort({ score: -1 });
+  try {
+    const { all } = req.query;
+    let query = Player.find().sort({ score: -1 });
 
-  const isAdmin = req.user?.['cognito:groups']?.includes('admin');
-  if (!isAdmin || all !== 'true') {
-    query = query.limit(10);
+    const isAdmin = (req.user as any)?.['cognito:groups']?.includes('admin');
+    if (!isAdmin || all !== 'true') {
+      query = query.limit(10);
+    }
+
+    const players = await query.exec();
+    return res.json(players);
+  } catch (err) {
+    console.error("Leaderboard error:", err);
+    return res.status(500).json({ error: "Failed to fetch leaderboard." });
   }
-
-  const players = await query.exec();
-  res.json(players);
 });
 
 app.use("/api/admin", adminRoutes);

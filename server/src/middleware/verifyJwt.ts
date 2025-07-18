@@ -1,12 +1,3 @@
-declare global {
-  namespace Express {
-    interface Request {
-      user?: any;
-    }
-  }
-}
-
-
 import jwt, { JwtHeader } from 'jsonwebtoken';
 import jwksClient from "jwks-rsa";
 import { Request, Response, NextFunction } from "express";
@@ -28,7 +19,6 @@ function getKey(header: JwtHeader, callback: jwt.SigningKeyCallback) {
     }
   });
 }
-
 
 export function verifyJwt(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;

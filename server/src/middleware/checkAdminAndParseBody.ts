@@ -1,7 +1,14 @@
 import { Request, Response, NextFunction } from "express";
+function isAdminUser(user: unknown): user is { 'cognito:groups': string[] } {
+  return (
+    typeof user === 'object' &&
+    user !== null &&
+    Array.isArray((user as Record<string, any>)['cognito:groups'])
+  );
+}
 
 export function checkAdminAndParseBody(req: Request, res: Response, next: NextFunction) {
-  if (!req.user?.["cognito:groups"]?.includes("admin")) {
+  if (!isAdminUser(req.user) || !req.user['cognito:groups'].includes('admin')) {
     return res.status(403).json({ message: "Admins only" });
   }
 

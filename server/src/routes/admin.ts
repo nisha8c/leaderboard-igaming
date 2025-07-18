@@ -10,11 +10,20 @@ const cognito = new AWS.CognitoIdentityServiceProvider({
   region: "eu-north-1",
 });
 
-function validateNameAndScore(name: any, score: any) {
-  if (typeof name !== 'string' || name.trim().length === 0 || name.length > 50) {
+function isAdminUser(user: any): boolean {
+  return (
+    user &&
+    typeof user === "object" &&
+    Array.isArray(user["cognito:groups"]) &&
+    user["cognito:groups"].includes("admin")
+  );
+}
+
+function validateNameAndScore(name: string, score: number): string | null {
+  if (name.trim().length === 0 || name.length > 50) {
     return "Name must be a non-empty string (max 50 chars).";
   }
-  if (typeof score !== 'number' || isNaN(score) || score < 0) {
+  if (isNaN(score) || score < 0) {
     return "Score must be a non-negative number.";
   }
   return null;
@@ -89,34 +98,39 @@ router.post("/add-player", verifyJwt, checkAdminAndParseBody, async (req, res) =
 });
 
 router.put("/update-score/:id", verifyJwt, checkAdminAndParseBody, async (req, res) => {
-  const { name, score } = req.body;
+  try {
+    const { name, score } = req.body;
 
-  const player = await Player.findById(req.params.id);
-  if (!player) return res.status(404).json({ message: "Player not found." });
+    const player = await Player.findById(req.params.id);
+    if (!player) return res.status(404).json({ message: "Player not found." });
 
-  // Validate if provided
-  if (name !== undefined && (typeof name !== 'string' || name.trim().length === 0 || name.length > 50)) {
-    return res.status(400).json({ message: "Name must be a non-empty string (max 50 chars)." });
+    // Validate if provided
+    if (name !== undefined && (typeof name !== 'string' || name.trim().length === 0 || name.length > 50)) {
+      return res.status(400).json({ message: "Name must be a non-empty string (max 50 chars)." });
+    }
+    if (score !== undefined && (typeof score !== 'number' || isNaN(score) || score < 0)) {
+      return res.status(400).json({ message: "Score must be a non-negative number." });
+    }
+
+    const updated = await Player.findByIdAndUpdate(
+      req.params.id,
+      {
+        ...(name && { name }),
+        ...(score !== undefined && { score }),
+        lastUpdated: new Date(),
+      },
+      { new: true }
+    );
+
+    return res.status(200).json({ message: "Player updated!", updated });
+  } catch (err) {
+    console.error("❌ Update error:", err);
+    return res.status(500).json({ message: "Failed to update player." });
   }
-  if (score !== undefined && (typeof score !== 'number' || isNaN(score) || score < 0)) {
-    return res.status(400).json({ message: "Score must be a non-negative number." });
-  }
-
-  const updated = await Player.findByIdAndUpdate(
-    req.params.id,
-    {
-      ...(name && { name }),
-      ...(score !== undefined && { score }),
-      lastUpdated: new Date(),
-    },
-    { new: true }
-  );
-
-  return res.status(200).json({ message: "Player updated!", updated });
 });
 
 router.delete("/delete-player/:id", verifyJwt, async (req, res) => {
-  if (!req.user["cognito:groups"]?.includes("admin")) {
+  if (!isAdminUser(req.user)) {
     return res.status(403).json({ message: "Admins only" });
   }
 

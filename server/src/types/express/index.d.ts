@@ -1,7 +1,17 @@
 import { JwtPayload } from "jsonwebtoken";
 
-declare namespace Express {
-  export interface Request {
-    user?: JwtPayload | string | any; // fallback for decoded tokens
+declare module "express-serve-static-core" {
+  interface Request {
+    user?: string | (JwtPayload & { [key: string]: any });
   }
 }
+
+/*
+declare global {
+  namespace Express {
+    interface Request {
+      user?: JwtPayload | string;
+    }
+  }
+}
+ */
