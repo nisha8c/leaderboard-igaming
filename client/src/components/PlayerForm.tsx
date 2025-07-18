@@ -61,6 +61,7 @@ const PlayerForm = ({ mode, player, onSuccess, showAll = false }: PlayerFormProp
       onSuccess();
     } else {
       const data = await res.json();
+      console.log('data.message::::: ', data.message);
       alert(data.message || 'Something went wrong.');
     }
   };
