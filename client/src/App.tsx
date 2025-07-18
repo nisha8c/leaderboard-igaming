@@ -50,8 +50,6 @@ function App() {
           Sign out
         </Button>
 
-        <Leaderboard isAdmin={isAdmin} onEditPlayer={handleEditPlayer} showAll={showAll} />
-
         { isAdmin && (
           <Button
             variant="outline-info"
@@ -92,6 +90,8 @@ function App() {
             </Modal>
           </>
         )}
+
+        <Leaderboard isAdmin={isAdmin} onEditPlayer={handleEditPlayer} showAll={showAll} />
       </Container>
     );
   }
