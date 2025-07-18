@@ -46,53 +46,51 @@ function App() {
     return (
       <>
         <NavbarComponent userEmail={auth.user?.profile.email!} onSignOut={signOutRedirect} />
-
-        <Stack direction="horizontal" gap={2}>
-          <div className="p-2">
-            { isAdmin && (
-              <Button
-                variant="outline-info"
-                className="mt-2"
-                onClick={() => setShowAll((prev) => !prev)}
-              >
-                {showAll ? 'Show Top 10' : 'Show All Players'}
-              </Button>
-            )}
-          </div>
-          <div className="p-2 ms-auto">
-            {isAdmin && (
-              <>
-                <Button
-                  variant="primary"
-                  className="mt-3"
-                  onClick={handleOpenAdd}
-                >
-                  ➕ Add Player
-                </Button>
-                <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} centered>
-                  <Modal.Header closeButton>
-                    <Modal.Title>{editPlayer ? 'Edit Player' : 'Add Player'}</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <PlayerForm
-                      mode={editPlayer ? 'edit' : 'add'}
-                      player={editPlayer || undefined}
-                      onSuccess={() => setIsModalOpen(false)}
-                      showAll={showAll}
-                    />
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
-                      Close
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
-              </>
-            )}
-          </div>
-        </Stack>
-
         <Container className="mt-4 d-flex flex-column align-items-center text-center">
+          <Stack direction="horizontal" gap={2}>
+            <div className="p-2">
+              { isAdmin && (
+                <Button
+                  variant="outline-info"
+                  className="mt-2"
+                  onClick={() => setShowAll((prev) => !prev)}
+                >
+                  {showAll ? 'Show Top 10' : 'Show All Players'}
+                </Button>
+              )}
+            </div>
+            <div className="p-2 ms-auto">
+              {isAdmin && (
+                <>
+                  <Button
+                    variant="primary"
+                    className="mt-3"
+                    onClick={handleOpenAdd}
+                  >
+                    ➕ Add Player
+                  </Button>
+                  <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} centered>
+                    <Modal.Header closeButton>
+                      <Modal.Title>{editPlayer ? 'Edit Player' : 'Add Player'}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <PlayerForm
+                        mode={editPlayer ? 'edit' : 'add'}
+                        player={editPlayer || undefined}
+                        onSuccess={() => setIsModalOpen(false)}
+                        showAll={showAll}
+                      />
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
+                        Close
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+                </>
+              )}
+            </div>
+          </Stack>
           <Leaderboard isAdmin={isAdmin} onEditPlayer={handleEditPlayer} showAll={showAll} />
         </Container>
       </>
