@@ -54,7 +54,7 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
         variants={listVariants}
         initial="hidden"
         animate="visible"
-        style={{ maxHeight: '400px', overflowY: 'auto', margin: '10px' } as CSSProperties}
+        style={{ maxHeight: '400px', overflowY: 'auto', padding: '8px' } as CSSProperties}
       >
         <ListGroup>
           {players.map((player) => (
