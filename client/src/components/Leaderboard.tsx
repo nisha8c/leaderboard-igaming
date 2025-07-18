@@ -66,11 +66,14 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
               <ListGroup.Item
                 action={isAdmin}
                 onClick={() => isAdmin && onEditPlayer?.(player)}
-                className="mb-2"
+                className="mb-2 text-white border border-info rounded bg-transparent"
+                style={{ backdropFilter: 'blur(5px)' }}
               >
                 <strong>{player.name}</strong> — {player.score} pts
                 <br />
-                <small>Last updated: {new Date(player.lastUpdated ?? '').toLocaleString()}</small>
+                <small>
+                  Last updated: {new Date(player.lastUpdated ?? '').toLocaleString()}
+                </small>
               </ListGroup.Item>
             </motion.li>
           ))}
