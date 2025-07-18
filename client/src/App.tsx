@@ -46,7 +46,6 @@ function App() {
     const email = auth.user?.profile.email ?? 'Unknown';
     return (
       <>
-        <FloatingIcons />
         <NavbarComponent userEmail={email} onSignOut={signOutRedirect} />
         <Container className="mt-4 d-flex flex-column align-items-center text-center">
           <Stack direction="horizontal" gap={2}>
@@ -101,8 +100,9 @@ function App() {
 
   return (
     <>
+      <FloatingIcons />
       <div className="slot-background" />
-      <Container className="mt-5 d-flex flex-column align-items-center justify-content-center text-center" style={{ height: '100vh', zIndex: 1 }}>
+      <Container className="mt-5 d-flex flex-column align-items-center justify-content-center text-center" style={{ height: '100vh', zIndex: 4 }}>
         <h2 className="mb-4 text-white">🎰 Welcome to iGaming Arena 🎰</h2>
         <Button variant="warning" size="lg" onClick={() => auth.signinRedirect()}>
           🎮 Sign In to Play

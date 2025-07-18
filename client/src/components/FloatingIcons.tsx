@@ -41,7 +41,9 @@ const FloatingIcons = () => {
             left: item.left,
             right: item.right,
             fontSize: '2rem',
-            zIndex: 2,
+            zIndex: 3,
+            color: 'rgba(255, 255, 255, 0.8)',
+            filter: 'drop-shadow(0 0 4px #fff)',
             pointerEvents: 'none',
           }}
           initial={{ y: 0, opacity: 0 }}
