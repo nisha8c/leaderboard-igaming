@@ -41,12 +41,12 @@ A full-stack leaderboard application for managing and viewing game player scores
 - View top 10 players (sorted by score)
 - Display name, score, and last updated time
 
-### ✅ Admin Dashboard (Auth Protected)
+### ✅ Admin Dashboard (Auth Protected) : Using Leaderboard same component and rendering extra parts based on if user is admin or normal user.
 - Add new players
 - Edit/update scores
 - Delete players
 - Basic form validation
-- Admin can add user - that gets saved in Cognito users as well as in Mongo DB. Admin can choose to assign the user to admin group at the time of creation and edit.
+- Admin can add user - that gets saved in Cognito users as well as in Mongo DB. Admin can choose to assign the user to admin group at the time of creation.
 
 ## 🔐 Authentication
 
@@ -79,6 +79,7 @@ A full-stack leaderboard application for managing and viewing game player scores
 ### Prerequisites
 
 - Node.js v20+
+- MongoDB Atlas or local instance
 - MongoDB Atlas or local instance
 - AWS account (for Cognito and Lambda)
 
