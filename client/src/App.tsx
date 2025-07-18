@@ -1,7 +1,7 @@
 import { useAuth } from 'react-oidc-context';
 import { Leaderboard, PlayerForm } from './components';
 import { useState } from 'react';
-import { Button, Container, Modal } from 'react-bootstrap';
+import { Button, Container, Modal, Stack } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import type { Player } from './types/types.ts';
@@ -45,10 +45,14 @@ function App() {
   if (auth.isAuthenticated) {
     return (
       <Container className="mt-4 d-flex flex-column align-items-center text-center">
-        <h1>Welcome, {auth.user?.profile.email}</h1>
-        <Button variant="outline-secondary" size="sm" onClick={signOutRedirect}>
-          Sign out
-        </Button>
+        <Stack direction="horizontal" gap={3}>
+          <h1>Welcome, {auth.user?.profile.email}</h1>
+          <div className="p-2 ms-auto">
+            <Button variant="outline-secondary" size="sm" onClick={signOutRedirect}>
+              Sign out
+            </Button>
+          </div>
+        </Stack>
 
         { isAdmin && (
           <Button
