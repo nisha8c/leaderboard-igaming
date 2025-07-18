@@ -109,7 +109,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-eu-north-1-104469aa-ff48",
-                "S3Key": "serverless/leaderboard-backend/dev/1752837320839-2025-07-18T11:15:20.839Z/leaderboard-backend.zip"
+                "S3Key": "serverless/leaderboard-backend/dev/1752837699943-2025-07-18T11:21:39.943Z/leaderboard-backend.zip"
               },
               "Handler": "src/index.handler",
               "Runtime": "nodejs20.x",
@@ -136,14 +136,14 @@
               "ApiLogGroup"
             ]
           },
-          "ApiLambdaVersionFg3NwWhzlMJlNeC3KtxwFJYH6ls4kL0NO6VUqvkfo": {
+          "ApiLambdaVersiondvkcXNUNQmstxBzu1RtM4ig2TWMkGulHwkQFVYhOiQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ApiLambdaFunction"
               },
-              "CodeSha256": "+OnXwpz2aE36ECyYXAZVZtPvuTM/OnXHNiFV5kXI+JM="
+              "CodeSha256": "FVtvpEERk0itNaQIs+QTXmDY+Yt+0oUcHpVgDfUdkNY="
             }
           },
           "ApiGatewayRestApi": {
@@ -280,7 +280,7 @@
               "ApiLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1752837311857": {
+          "ApiGatewayDeployment1752837689629": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -341,7 +341,7 @@
           "ApiLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ApiLambdaVersionFg3NwWhzlMJlNeC3KtxwFJYH6ls4kL0NO6VUqvkfo"
+              "Ref": "ApiLambdaVersiondvkcXNUNQmstxBzu1RtM4ig2TWMkGulHwkQFVYhOiQ"
             },
             "Export": {
               "Name": "sls-leaderboard-backend-dev-ApiLambdaFunctionQualifiedArn"
@@ -410,7 +410,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "ApiLambdaVersionFg3NwWhzlMJlNeC3KtxwFJYH6ls4kL0NO6VUqvkfo"
+        "versionLogicalId": "ApiLambdaVersiondvkcXNUNQmstxBzu1RtM4ig2TWMkGulHwkQFVYhOiQ"
       }
     },
     "configValidationMode": "warn",
@@ -432,7 +432,7 @@
     "layers": {}
   },
   "package": {
-    "artifactDirectoryName": "serverless/leaderboard-backend/dev/1752837320839-2025-07-18T11:15:20.839Z",
+    "artifactDirectoryName": "serverless/leaderboard-backend/dev/1752837699943-2025-07-18T11:21:39.943Z",
     "artifact": "leaderboard-backend.zip"
   }
 }

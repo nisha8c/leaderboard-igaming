@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { type CSSProperties, useEffect } from 'react';
 import { ListGroup, Spinner, Container, Badge } from 'react-bootstrap';
 import type { AppDispatch, RootState } from '../redux/store.ts';
 import { useDispatch, useSelector } from 'react-redux';
@@ -54,6 +54,7 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
         variants={listVariants}
         initial="hidden"
         animate="visible"
+        style={{ maxHeight: '400px', overflowY: 'auto' } as CSSProperties}
       >
         <ListGroup>
           {players.map((player) => (
@@ -63,15 +64,30 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
               whileHover="hover"
               layout
             >
-              <ListGroup.Item
-                action={isAdmin}
-                onClick={() => isAdmin && onEditPlayer?.(player)}
-                className="mb-2 border rounded bg-transparent text-white"
+              <motion.div
+                key={player._id}
+                variants={itemVariants}
+                whileHover={{
+                  scale: 1.03,
+                  color: '#0dcaf0', // Bootstrap "info" blue
+                }}
+                transition={{ type: 'spring', stiffness: 300 }}
+                layout
               >
-                <strong>{player.name}</strong> — {player.score} pts
-                <br />
-                <small>Last updated: {new Date(player.lastUpdated ?? '').toLocaleString()}</small>
-              </ListGroup.Item>
+                <ListGroup.Item
+                  action={isAdmin}
+                  onClick={() => isAdmin && onEditPlayer?.(player)}
+                  className="mb-2 border rounded bg-transparent text-white"
+                  style={{ cursor: isAdmin ? 'pointer' : 'default' }}
+                >
+                  <strong>{player.name}</strong> — {player.score} pts
+                  <br />
+                  <small>
+                    Last updated: {new Date(player.lastUpdated ?? '').toLocaleString()}
+                  </small>
+                </ListGroup.Item>
+              </motion.div>
+
             </motion.li>
           ))}
         </ListGroup>
