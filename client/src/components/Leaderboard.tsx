@@ -64,7 +64,6 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
               layout
             >
               <ListGroup.Item
-                variant={'dark'}
                 action={isAdmin}
                 onClick={() => isAdmin && onEditPlayer?.(player)}
                 className="mb-2"

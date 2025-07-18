@@ -1,7 +1,7 @@
 import { useAuth } from 'react-oidc-context';
 import { Leaderboard, NavbarComponent, PlayerForm } from './components';
 import { useState } from 'react';
-import { Button, Container, Modal } from 'react-bootstrap';
+import { Button, Container, Modal, Stack } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import type { Player } from './types/types.ts';
@@ -47,47 +47,52 @@ function App() {
       <>
         <NavbarComponent userEmail={auth.user?.profile.email!} onSignOut={signOutRedirect} />
 
-        <Container className="mt-4 d-flex flex-column align-items-center text-center">
-          { isAdmin && (
-            <Button
-              variant="outline-info"
-              className="mt-2"
-              onClick={() => setShowAll((prev) => !prev)}
-            >
-              {showAll ? 'Show Top 10' : 'Show All Players'}
-            </Button>
-          )}
-
-          {isAdmin && (
-            <>
+        <Stack direction="horizontal" gap={2}>
+          <div className="p-2">
+            { isAdmin && (
               <Button
-                variant="primary"
-                className="mt-3"
-                onClick={handleOpenAdd}
+                variant="outline-info"
+                className="mt-2"
+                onClick={() => setShowAll((prev) => !prev)}
               >
-                ➕ Add Player
+                {showAll ? 'Show Top 10' : 'Show All Players'}
               </Button>
-              <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} centered>
-                <Modal.Header closeButton>
-                  <Modal.Title>{editPlayer ? 'Edit Player' : 'Add Player'}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <PlayerForm
-                    mode={editPlayer ? 'edit' : 'add'}
-                    player={editPlayer || undefined}
-                    onSuccess={() => setIsModalOpen(false)}
-                    showAll={showAll}
-                  />
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
-                    Close
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-            </>
-          )}
+            )}
+          </div>
+          <div className="p-2 ms-auto">
+            {isAdmin && (
+              <>
+                <Button
+                  variant="primary"
+                  className="mt-3"
+                  onClick={handleOpenAdd}
+                >
+                  ➕ Add Player
+                </Button>
+                <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} centered>
+                  <Modal.Header closeButton>
+                    <Modal.Title>{editPlayer ? 'Edit Player' : 'Add Player'}</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <PlayerForm
+                      mode={editPlayer ? 'edit' : 'add'}
+                      player={editPlayer || undefined}
+                      onSuccess={() => setIsModalOpen(false)}
+                      showAll={showAll}
+                    />
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
+                      Close
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+              </>
+            )}
+          </div>
+        </Stack>
 
+        <Container className="mt-4 d-flex flex-column align-items-center text-center">
           <Leaderboard isAdmin={isAdmin} onEditPlayer={handleEditPlayer} showAll={showAll} />
         </Container>
       </>
