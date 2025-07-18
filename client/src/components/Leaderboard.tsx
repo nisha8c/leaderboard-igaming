@@ -85,7 +85,7 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
                   <ListGroup.Item
                     action={isAdmin}
                     onClick={() => isAdmin && onEditPlayer?.(player)}
-                    className="mb-2 border rounded bg-transparent text-white d-flex align-items-center gap-3"
+                    className="mb-2 border rounded bg-transparent text-white gap-3"
                     style={{ cursor: isAdmin ? 'pointer' : 'default' }}
                   >
                     <span style={{ fontSize: '1.5rem' }}>{getIcon()}</span>
