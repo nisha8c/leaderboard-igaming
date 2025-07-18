@@ -102,6 +102,6 @@ A full-stack leaderboard application for managing and viewing game player scores
 ---
 ### Known limitations
 1. No email / password auth - (relies solely on Cognito login)
-3. Search, Filter, Sort, Pagination is not present when admin sees all the players.
+2. Search, Filter, Sort, Pagination is not present when admin sees all the players.
 
 
