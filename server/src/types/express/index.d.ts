@@ -5,13 +5,3 @@ declare module "express-serve-static-core" {
     user?: string | (JwtPayload & { [key: string]: any });
   }
 }
-
-/*
-declare global {
-  namespace Express {
-    interface Request {
-      user?: JwtPayload | string;
-    }
-  }
-}
- */
