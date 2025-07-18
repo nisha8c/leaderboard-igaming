@@ -60,7 +60,8 @@ const PlayerForm = ({ mode, player, onSuccess, showAll = false }: PlayerFormProp
       dispatch(fetchPlayers({ all: showAll, token: auth.user?.access_token }));
       onSuccess();
     } else {
-      alert('Something went wrong.');
+      const data = await res.json();
+      alert(data.message || 'Something went wrong.');
     }
   };
 
