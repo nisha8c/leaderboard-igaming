@@ -1,7 +1,7 @@
 import { useAuth } from 'react-oidc-context';
 import { Leaderboard, PlayerForm } from './components';
 import { useState } from 'react';
-import { Button, Container, Modal, Navbar, Stack } from 'react-bootstrap';
+import { Button, Container, Modal, Navbar } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import type { Player } from './types/types.ts';
