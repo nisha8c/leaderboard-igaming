@@ -1,4 +1,4 @@
-import { type CSSProperties, useEffect } from 'react';
+import { useEffect } from 'react';
 import { ListGroup, Spinner, Container, Badge } from 'react-bootstrap';
 import type { AppDispatch, RootState } from '../redux/store.ts';
 import { useDispatch, useSelector } from 'react-redux';
@@ -62,15 +62,17 @@ const Leaderboard = ({ isAdmin, onEditPlayer, showAll }: LeaderboardProps) => {
               variants={itemVariants}
               whileHover="hover"
               layout
-              style={{
-                backgroundColor: 'transparent',
-                border: '1px solid yellow',
-              } as CSSProperties}
             >
               <ListGroup.Item
                 action={isAdmin}
                 onClick={() => isAdmin && onEditPlayer?.(player)}
                 className="mb-2"
+                style={{
+                  backgroundColor: 'rgba(0,0,0,0.4)', // transparent dark background
+                  color: 'white',                    // white text
+                  borderColor: '#0dcaf0',           // light blue border (Bootstrap info)
+                  backdropFilter: 'blur(5px)',      // optional blur
+                }}
               >
                 <strong>{player.name}</strong> — {player.score} pts
                 <br />
